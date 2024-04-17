@@ -22,15 +22,18 @@
 	"devDependencies": {
 		"@vitejs/plugin-vue": "^5.0.4",
 		"@vue/tsconfig": "^0.5.1",
+		"@vueuse/core": "^10.9.0",
 		"element-plus": "^2.7.0",
 		"sass": "^1.75.0",
 		"typescript": "^5.4.5",
 		"vite": "^5.2.9",
 		"vite-plugin-dts": "^3.8.3",
 		"vue": "^3.4.23",
-		"vue-tsc": "^2.0.13"
+		"vue-tsc": "^2.0.13",
+		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
 	},
 	"peerDependencies": {
+		"@vueuse/core": "^10.9.0",
 		"element-plus": "^2.7.0",
 		"vue": "^3.4.23"
 	}
