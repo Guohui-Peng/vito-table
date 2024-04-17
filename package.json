@@ -1,0 +1,37 @@
+{
+	"name": "vt-table",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "./src/index.ts",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"dts/src"
+	],
+	"scripts": {
+		"build": "vite build"
+	},
+	"keywords": [
+		"Table",
+		"Vue Table",
+		"Element Plus Table"
+	],
+	"author": "Guohui Peng",
+	"license": "MIT",
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^5.0.4",
+		"@vue/tsconfig": "^0.5.1",
+		"element-plus": "^2.7.0",
+		"sass": "^1.75.0",
+		"typescript": "^5.4.5",
+		"vite": "^5.2.9",
+		"vite-plugin-dts": "^3.8.3",
+		"vue": "^3.4.23",
+		"vue-tsc": "^2.0.13"
+	},
+	"peerDependencies": {
+		"element-plus": "^2.7.0",
+		"vue": "^3.4.23"
+	}
+}
