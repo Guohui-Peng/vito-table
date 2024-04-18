@@ -1,10 +1,12 @@
 {
 	"name": "vito-table",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "",
 	"type": "module",
 	"main": "./src/index.ts",
 	"types": "./dist/index.d.ts",
+	"homepage": "https://github.com/guohui-peng/vito-table",
+	"repository": "github:guohui-peng/vito-table",
 	"files": [
 		"dist",
 		"dist/types"
