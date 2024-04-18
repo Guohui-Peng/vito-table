@@ -7,10 +7,11 @@
 	"types": "./dist/index.d.ts",
 	"files": [
 		"dist",
-		"dts/src"
+		"dist/types"
 	],
 	"scripts": {
-		"build": "vite build"
+		"build": "vite build",
+		"build:dts": "vue-tsc --declaration --emitDeclarationOnly -p tsconfig.json"
 	},
 	"keywords": [
 		"Table",
@@ -20,7 +21,10 @@
 	"author": "Guohui Peng",
 	"license": "MIT",
 	"devDependencies": {
+		"@iconify-json/mdi": "^1.1.66",
+		"@intlify/unplugin-vue-i18n": "^4.0.0",
 		"@types/node": "^20.12.7",
+		"@unocss/preset-icons": "^0.59.3",
 		"@vitejs/plugin-vue": "^5.0.4",
 		"@vitejs/plugin-vue-jsx": "^3.1.0",
 		"@vue/tsconfig": "^0.5.1",
@@ -28,6 +32,7 @@
 		"element-plus": "^2.7.0",
 		"sass": "^1.75.0",
 		"typescript": "^5.4.5",
+		"unocss": "^0.59.3",
 		"unplugin-auto-import": "^0.17.5",
 		"vite": "^5.2.9",
 		"vite-plugin-dts": "^3.8.3",

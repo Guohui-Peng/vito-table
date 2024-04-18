@@ -1,10 +1,18 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import path from "path";
+// import path from "path";
 import { fileURLToPath, URL } from "node:url";
 import dts from "vite-plugin-dts";
 import AutoImport from "unplugin-auto-import/vite";
+import UnoCSS from "unocss/vite";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
+
+import { resolve, dirname } from "node:path";
+
+function pathResolve(dir) {
+	return resolve(__dirname, ".", dir);
+}
 
 export default defineConfig({
 	resolve: {
@@ -16,6 +24,11 @@ export default defineConfig({
 	plugins: [
 		vue(),
 		vueJsx(),
+		UnoCSS(),
+		VueI18nPlugin({
+			// locale messages resource pre-compile option
+			include: pathResolve("./src/locales/**")
+		}),
 		AutoImport({
 			imports: [
 				"vue",
@@ -27,9 +40,9 @@ export default defineConfig({
 				}
 			],
 			dirs: ["./src/utils/functions"],
-			dts: "./src/types/auto-imports.d.ts"
+			dts: "./types/auto-imports.d.ts"
 		}),
-		// dts({ rollupTypes: true })
+		// dts()
 	],
 	build: {
 		lib: {
@@ -40,7 +53,7 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			// 不想打包进库的依赖
-			external: ["vue", "@vueuse/core", "element-plus"],
+			external: ["vue", "@vueuse/core", "element-plus", "xlsx"],
 			output: {
 				// 为外部的依赖提供一个全局变量
 				globals: {

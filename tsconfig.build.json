@@ -1,6 +1,5 @@
 {
-	"extends": "@vue/tsconfig/tsconfig.dom.json",
-	"include": ["src/**/*", "src/**/*.vue"],
+	"include": ["src/**/*.ts", "src/**/*.vue"],
 	"exclude": [
 		"node_modules",
 		"build",
@@ -15,17 +14,11 @@
 		"paths": {
 			"@/*": ["./src/*"]
 		},
-		"typeRoots": [
-			"./node_modules/@types",
-			"./src/types",
-			"./node_modules/element-plus",
-			"./node_modules/dayjs"
-		],
 		"composite": true,
 		"allowJs": true,
 		"jsx": "preserve",
 		"declaration": true,
-		"outDir": "types",
+		"outDir": "dist",
 		"baseUrl": ".",
 		"noEmit": false
 	}
