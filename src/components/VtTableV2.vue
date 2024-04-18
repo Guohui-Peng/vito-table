@@ -6,12 +6,11 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useI18n } from "vue-i18n";
 import { ElMessage, TableV2SortOrder } from "element-plus";
 
-import { vAllow } from "@/directives";
 import VtTableDialog from "./VtTableDialog.vue";
 import VtColumnSelector from "./VtColumnSelector.vue";
 import VtExportDialog from "./exports/VtExportDialog.vue";
 import { filterRow } from "./filters/filter";
-import { useApiFetch } from "../../utils/functions";
+import { useApiFetch } from "./vtFetch";
 import { VtHeaderFilter } from "./filters";
 import { VtCell } from "./cells";
 import { cacheSelectOptions } from "./utils";
@@ -91,12 +90,48 @@ const props = defineProps({
 	exportFilename: {
 		type: String,
 		default: "export-file"
+	},
+	apiServer: {
+		type: String
+	},
+	accessToken: {
+		type: String
+	},
+	canAdd: {
+		type: Boolean,
+		default: false
+	},
+	canEdit: {
+		type: Boolean,
+		default: false
+	},
+	canDelete: {
+		type: Boolean,
+		default: false
+	},
+	canExport: {
+		type: Boolean,
+		default: false
+	},
+	canRefresh: {
+		type: Boolean,
+		default: true
 	}
 });
 
 const emit = defineEmits(["update:modelValue", "add", "edit", "delete", "operation"]);
 
 const { t } = useI18n();
+
+// const apiServer = computed(() => {
+// 	if (props.apiServer) {
+// 		return props.apiServer;
+// 	} else {
+// 		return "";
+// 	}
+// });
+
+const apiFetch = useApiFetch(props.apiServer, props.accessToken);
 
 // 表格数据，v-model绑定
 const data = computed({
@@ -156,6 +191,31 @@ const currentPageData = computed(() => {
 	//   return props.data;
 });
 
+// 是否显示下载按钮
+const showRowEditButton = computed(()=>{
+	return props.showRowEditButton && props.canEdit;
+})
+
+const showRowDeleteButton = computed(()=>{
+	return props.showRowDeleteButton && props.canDelete;
+})
+
+const showEditButton = computed(()=>{
+	return props.canEdit;
+})
+
+const showDeleteButton = computed(()=>{
+	return props.canDelete;
+})
+
+const showDownloadButton = computed(()=>{
+	return props.showDownloadButton && props.canExport;
+})
+
+const showAddButton = computed(()=>{
+	return props.canAdd;
+})
+
 // 总数量
 const total = computed(() => (props.remote ? remoteTotal.value : filteredData.value.length));
 
@@ -177,14 +237,14 @@ operationColumns.value.push({
 		if (props.showOperationColumn !== false) {
 			return (
 				<>
-					{props.showRowEditButton ? (
+					{props.showRowEditButton && props.canEdit ? (
 						<ElButton size="small" onClick={onEdit}>
 							{t("Table.Edit")}
 						</ElButton>
 					) : (
 						<span></span>
 					)}
-					{props.showRowDeleteButton ? (
+					{props.showRowDeleteButton && props.canDelete ? (
 						<ElButton size="small" type="danger" onClick={onDelete}>
 							{t("Table.Delete")}
 						</ElButton>
@@ -306,7 +366,7 @@ const loadRemotePromise = (url, page_size, current_page, filters = null, sort = 
 
 	return new Promise((resolve, reject) => {
 		try {
-			useApiFetch(url)
+			apiFetch(url)
 				.post(postData)
 				.json()
 				.then((resp) => {
@@ -374,7 +434,7 @@ async function deleteData(rowIndex, rowData) {
 			}
 			try {
 				loading.value = true;
-				useApiFetch(props.editUrl)
+				apiFetch(props.editUrl)
 					.post({
 						data: rowData,
 						operation: "del"
@@ -511,7 +571,7 @@ function onDelete() {
 				try {
 					const ids = selectedRows.map((row) => row.Id).join(",");
 					loading.value = true;
-					useApiFetch(props.editUrl)
+					apiFetch(props.editUrl)
 						.post({
 							data: null,
 							ids: ids,
@@ -585,7 +645,7 @@ function onModified(val) {
 	}
 	if (props.remote === true) {
 		loading.value = true;
-		useApiFetch(props.editUrl)
+		apiFetch(props.editUrl)
 			.post({
 				operation: "edit",
 				data: val
@@ -839,7 +899,7 @@ function sortRemoteData(prop, order) {
 						type="default"
 						:icon="CirclePlus"
 						style="--el-pagination-button-color: #ff00ff"
-						v-allow="['add']"
+						v-if="showAddButton"
 						@click="onAdd"
 					/>
 					<el-button
@@ -847,7 +907,7 @@ function sortRemoteData(prop, order) {
 						:icon="Delete"
 						style="--el-pagination-button-color: #ff0000"
 						@click="onDelete"
-						v-allow="['delete']"
+						v-if="showDeleteButton"
 					/>
 					<el-divider direction="vertical" />
 				</el-space>

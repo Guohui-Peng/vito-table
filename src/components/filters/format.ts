@@ -1,4 +1,4 @@
-import dayjs from "@/utils/dayjs.mjs";
+import dayjs from "./dayjs.mjs";
 
 import type { VtTable } from "@/types";
 

@@ -20,21 +20,32 @@
 	"author": "Guohui Peng",
 	"license": "MIT",
 	"devDependencies": {
+		"@types/node": "^20.12.7",
 		"@vitejs/plugin-vue": "^5.0.4",
+		"@vitejs/plugin-vue-jsx": "^3.1.0",
 		"@vue/tsconfig": "^0.5.1",
 		"@vueuse/core": "^10.9.0",
 		"element-plus": "^2.7.0",
 		"sass": "^1.75.0",
 		"typescript": "^5.4.5",
+		"unplugin-auto-import": "^0.17.5",
 		"vite": "^5.2.9",
 		"vite-plugin-dts": "^3.8.3",
 		"vue": "^3.4.23",
-		"vue-tsc": "^2.0.13",
-		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+		"vue-i18n": "^9.12.1",
+		"vue-tsc": "^2.0.13"
 	},
 	"peerDependencies": {
 		"@vueuse/core": "^10.9.0",
 		"element-plus": "^2.7.0",
-		"vue": "^3.4.23"
+		"vue": "^3.4.23",
+		"vue-i18n": "^9.12.1"
+	},
+	"dependencies": {
+		"@element-plus/icons-vue": "^2.3.1",
+		"dayjs": "^1.11.10",
+		"lodash-es": "^4.17.21",
+		"sortablejs": "^1.15.2",
+		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
 	}
 }

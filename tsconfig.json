@@ -1,10 +1,20 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.dom.json",
 	"include": ["src/**/*", "src/**/*.vue"],
-	
+	"exclude": ["node_modules", "build", "dist", ".vscode", "src/**/*.spec.ts", "src/**/*.test.ts"],
 	"compilerOptions": {
+		"strict": true,
+		"typeRoots": [
+			"./node_modules/@types",
+			"./src/types",
+			"./node_modules/element-plus",
+			"./node_modules/dayjs"
+		],
 		"composite": true,
-        "outDir": "dts",
+		"allowJs": true,
+		"jsx": "preserve",
+		"declaration": true,
+		"outDir": "dts",
 		"baseUrl": ".",
 		"noEmit": false,
 		"paths": {

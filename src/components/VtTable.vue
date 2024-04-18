@@ -3,7 +3,6 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { Delete, Upload, CirclePlus, RefreshRight, Download } from "@element-plus/icons-vue";
 
-import { vAllow } from "@/directives";
 import { filterRow } from "./filters/filter";
 import VtTableDialog from "./VtTableDialog.vue";
 import VtExportDialog from "./exports/VtExportDialog.vue";
@@ -11,7 +10,7 @@ import VtColumnSelector from "./VtColumnSelector.vue";
 import { numberFormat, integerFormat } from "./filters/format";
 import { VtHeaderFilter } from "./filters";
 import { VtCell } from "./cells";
-import { useApiFetch } from "../../utils/functions";
+import { useApiFetch } from "./vtFetch";
 import { cacheSelectOptions } from "./utils";
 import { ElMessage, ElMessageBox } from "element-plus";
 
@@ -70,6 +69,13 @@ const props = withDefaults(
 		 * 是否设计模式。设计模式不允许编辑数据。
 		 */
 		designMode?: boolean;
+		apiServer?: string;
+		token?: string;
+		canAdd?: boolean;
+		canEdit?: boolean;
+		canDelete?: boolean;
+		canExport?: boolean;
+		canRefresh?: boolean;
 	}>(),
 	{
 		modelValue: () => [],
@@ -90,7 +96,12 @@ const props = withDefaults(
 		exportFooter: true,
 		designMode: false,
 		exportCustomFooter: () => [],
-		exportFormulaFooter: () => []
+		exportFormulaFooter: () => [],
+		canAdd: false,
+		canEdit: false,
+		canDelete: false,
+		canExport: false,
+		canRefresh: true
 	}
 );
 
@@ -104,6 +115,8 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+
+const apiFetch = useApiFetch(props.apiServer, props.token);
 
 // 表格数据，v-model绑定
 const data = computed({
@@ -156,6 +169,30 @@ const currentPageData = computed(() => {
 });
 
 const remoteTotal = ref<number>(0); // 远程数据总数
+
+const showRowEditButton = computed(()=>{
+	return props.showRowEditButton && props.canEdit;
+})
+
+const showRowDeleteButton = computed(()=>{
+	return props.showRowDeleteButton && props.canDelete;
+})
+
+const showEditButton = computed(()=>{
+	return props.canEdit;
+})
+
+const showDeleteButton = computed(()=>{
+	return props.canDelete;
+})
+
+const showDownloadButton = computed(()=>{
+	return props.showDownloadButton && props.canExport;
+})
+
+const showAddButton = computed(()=>{
+	return props.canAdd;
+})
 
 // 总数量
 const total = computed<number>(() =>
@@ -332,7 +369,7 @@ async function deleteData(rowIndex: number, rowData: Object) {
 				// 	action: "delete"
 				// });
 				loading.value = true;
-				useApiFetch<Result<any>>(props.editUrl)
+				apiFetch<Result<any>>(props.editUrl)
 					.post({
 						data: rowData,
 						operation: "del"
@@ -394,7 +431,7 @@ const loadRemotePromise = (
 
 	return new Promise((resolve, reject) => {
 		try {
-			useApiFetch<GridResult<any>>(url)
+			apiFetch<GridResult<any>>(url)
 				.post(postData)
 				.json()
 				.then((resp) => {
@@ -486,7 +523,7 @@ function onBatchDelete() {
 					if (props.editUrl) {
 						const ids = selectedRows.map((row: any) => row.Id).join(",");
 						loading.value = true;
-						useApiFetch(props.editUrl)
+						apiFetch(props.editUrl)
 							.post({
 								data: null,
 								ids: ids,
@@ -658,7 +695,7 @@ function onModified(val: any) {
 		// 远程数据
 		if (props.editUrl) {
 			loading.value = true;
-			useApiFetch<Result<any>>(props.editUrl)
+			apiFetch<Result<any>>(props.editUrl)
 				.post({
 					operation: operation.value,
 					data: val
@@ -955,7 +992,7 @@ onMounted(() => {
 						type="default"
 						:icon="CirclePlus"
 						style="--el-pagination-button-color: #ff00ff"
-						v-allow="['add']"
+						v-if="showAddButton"
 						@click="onAdd"
 					/>
 					<el-button
@@ -963,8 +1000,7 @@ onMounted(() => {
 						:icon="Delete"
 						style="--el-pagination-button-color: #ff0000"
 						@click="onBatchDelete"
-						v-allow="['delete']"
-						v-if="showSelectionColumn"
+						v-if="showDeleteButton"
 					/>
 					<el-divider direction="vertical" />
 				</el-space>
