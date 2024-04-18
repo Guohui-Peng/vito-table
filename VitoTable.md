@@ -1,4 +1,4 @@
-# VT Table
+# Vito Table
 
 对 Element Plus 的 Virtual Table 进行封装，方便使用。
 
