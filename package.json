@@ -12,7 +12,7 @@
 		"src/types"
 	],
 	"scripts": {
-		"build": "vite build && build:dts",
+		"build": "vite build && pnpm build:dts",
 		"build:dts": "vue-tsc --declaration --emitDeclarationOnly",
 		"check": "vue-tsc --noEmit"
 	},
