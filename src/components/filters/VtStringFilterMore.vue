@@ -1,24 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
-const props = defineProps({
-	show: {
-		type: Boolean,
-		default: false,
-		required: true
-	},
-	fieldName: {
-		type: String,
-		required: true
-	},
-	field: {
-		type: String,
-		required: true
-	},
-	filter: {
-		type: Object,
-		default: {
+const props = withDefaults(
+	defineProps<{
+		show: boolean;
+		fieldName: string;
+		field: string;
+		filter: any;
+	}>(),
+	{
+		show: false,
+		fieldName: "",
+		field: "",
+		filter: {
 			groupOp: "and",
 			rules: [
 				{
@@ -29,7 +24,7 @@ const props = defineProps({
 			]
 		}
 	}
-});
+);
 
 const emit = defineEmits(["filtered", "canceled", "update:show", "update:filter"]);
 
@@ -44,7 +39,7 @@ const showDialog = computed({
 
 const { t } = useI18n();
 
-const groupOperation = ref("and");
+const groupOperation = ref<"and" | "or">("and");
 
 const validOperations = [
 	{ value: "eq", label: "equal" },

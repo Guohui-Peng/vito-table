@@ -1,4 +1,5 @@
-// import { Ref, toValue } from "vue";
+import { toValue } from "vue";
+import type { Ref } from "vue";
 import { createFetch, type useFetch } from "@vueuse/core";
 
 /**
@@ -8,14 +9,14 @@ import { createFetch, type useFetch } from "@vueuse/core";
  * @returns useFetch
  */
 export function useApiFetch(
-	apiServerUrl: string | Ref<string>,
+	apiServerUrl: string | Ref<string> | null | undefined,
 	token: string | Ref<string> | null | undefined
 ): typeof useFetch {
 	const server_url = toValue(apiServerUrl);
 	const token_value: string | null | undefined = toValue(token);
-	if (token_value === null || token_value === undefined) {
+	if (token_value === null || token_value === undefined || server_url === null || server_url === undefined) {
 		return createFetch({
-			baseUrl: server_url,
+			baseUrl: "/api",
 			combination: "overwrite",
 			fetchOptions: {
 				mode: "cors"

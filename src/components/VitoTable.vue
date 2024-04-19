@@ -116,7 +116,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const apiFetch = useApiFetch(props.apiServer, props.token);
+const apiFetch = useApiFetch(props.apiServer ?? "/api", props.token);
 
 // 表格数据，v-model绑定
 const data = computed({
@@ -170,29 +170,29 @@ const currentPageData = computed(() => {
 
 const remoteTotal = ref<number>(0); // 远程数据总数
 
-const showRowEditButton = computed(()=>{
+const showRowEditButton = computed(() => {
 	return props.showRowEditButton && props.canEdit;
-})
+});
 
-const showRowDeleteButton = computed(()=>{
+const showRowDeleteButton = computed(() => {
 	return props.showRowDeleteButton && props.canDelete;
-})
+});
 
-const showEditButton = computed(()=>{
+const showEditButton = computed(() => {
 	return props.canEdit;
-})
+});
 
-const showDeleteButton = computed(()=>{
+const showDeleteButton = computed(() => {
 	return props.canDelete;
-})
+});
 
-const showDownloadButton = computed(()=>{
+const showDownloadButton = computed(() => {
 	return props.showDownloadButton && props.canExport;
-})
+});
 
-const showAddButton = computed(()=>{
+const showAddButton = computed(() => {
 	return props.canAdd;
-})
+});
 
 // 总数量
 const total = computed<number>(() =>

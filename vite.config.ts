@@ -40,9 +40,17 @@ export default defineConfig({
 				}
 			],
 			dirs: ["./src/utils/functions"],
-			dts: "./types/auto-imports.d.ts"
+			dts: "./src/types/auto-imports.d.ts"
 		}),
-		// dts()
+		// dts({
+		// 	beforeWriteFile: (filePath, content) => ({
+		// 		filePath: filePath.replace("path/to/file.d.ts", "index.d.ts"),
+		// 		content
+		// 	}),
+		// 	pathsToAliases: true,
+		// 	outputDir: pathResolve("./dist/types"),
+		// 	include: ["./src/types/**/*.d.ts"]
+		// })
 	],
 	build: {
 		lib: {

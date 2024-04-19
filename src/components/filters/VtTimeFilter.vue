@@ -22,7 +22,7 @@ const { t } = useI18n();
 
 // const show = ref(false); // 是否显示弹出框
 const showFilterMore = ref(false); // 是否显示更多筛选
-const filterMoreString = ref(null);
+const filterMoreString = ref<any>(undefined);
 const field = computed(() => props.column.dataKey || props.column.key);
 
 const filterMoreButtons = ref<VtTable.FilterMoreMenuItem<"button" | "divider">[]>([
@@ -124,7 +124,7 @@ function onFilter() {
 	console.log("onFilter", filterString.value);
 	clearFilterMoreSelections();
 	filterMoreString.value = null;
-	popoverRef.value.hide();
+	popoverRef.value!.hide();
 	// show.value = false;
 
 	emit("filtered", field.value, filteredString.value);
@@ -135,19 +135,19 @@ function onReset() {
 	filterString.value = "";
 	clearFilterMoreSelections();
 	filterMoreString.value = null;
-	popoverRef.value.hide();
+	popoverRef.value!.hide();
 	// show.value = false;
 	emit("filtered", field.value, null);
 }
 
-let filterButton = null;
-let prevFilterButton = null;
-let prevFilterString = null;
+let filterButton: any = null;
+let prevFilterButton: any = null;
+let prevFilterString: string | null = null;
 /**
  * 点击更多筛选的项时的处理逻辑
  * @param {Object} item 当前选择的项
  */
-function onFilterMore(item) {
+function onFilterMore(item: VtTable.FilterMoreMenuItem<"button">) {
 	// console.log("onFilterMore", item);
 	// console.log("column", props.column);
 	prevFilterButton = filterButton;
@@ -182,22 +182,22 @@ function onFilterMore(item) {
 		}
 	}
 	filterButton = item;
-	filterMoreRef.value.hide();
+	filterMoreRef.value!.hide();
 }
 
 function onCancelFilterMore() {
 	// console.log("onCancelFilterMore");
 	filterButton = prevFilterButton;
-	if (filterButton != null) {
+	if (filterButton) {
 		filterButton.checked = true;
 		filterMoreString.value = prevFilterString == null ? null : timeFormat(prevFilterString);
 	}
 }
 
-function onFilteredMore(val) {
+function onFilteredMore(val: any) {
 	// console.log("onFilteredMore val", val);
 	// show.value = false;
-	if (filterButton != null) {
+	if (filterButton) {
 		// 使用更多选择时，清空输入框的值
 		filterString.value = "";
 

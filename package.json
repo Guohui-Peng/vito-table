@@ -1,19 +1,20 @@
 {
 	"name": "vito-table",
-	"version": "1.0.1",
+	"version": "0.0.1",
 	"description": "",
 	"type": "module",
 	"main": "./src/index.ts",
-	"types": "./dist/index.d.ts",
+	"types": "./dist/types/index.d.ts",
 	"homepage": "https://github.com/guohui-peng/vito-table",
 	"repository": "github:guohui-peng/vito-table",
 	"files": [
 		"dist",
-		"dist/types"
+		"src/types"
 	],
 	"scripts": {
 		"build": "vite build",
-		"build:dts": "vue-tsc --declaration --emitDeclarationOnly -p tsconfig.json"
+		"build:dts": "vue-tsc --declaration --emitDeclarationOnly",
+		"check": "vue-tsc --noEmit"
 	},
 	"keywords": [
 		"Table",
@@ -21,7 +22,7 @@
 		"Element Plus Table"
 	],
 	"author": "Guohui Peng",
-	"license": "MIT",
+	"license": "MIT",	
 	"devDependencies": {
 		"@iconify-json/mdi": "^1.1.66",
 		"@intlify/unplugin-vue-i18n": "^4.0.0",
@@ -31,7 +32,6 @@
 		"@vitejs/plugin-vue-jsx": "^3.1.0",
 		"@vue/tsconfig": "^0.5.1",
 		"@vueuse/core": "^10.9.0",
-		"element-plus": "^2.7.0",
 		"sass": "^1.75.0",
 		"typescript": "^5.4.5",
 		"unocss": "^0.59.3",
@@ -44,11 +44,11 @@
 	},
 	"peerDependencies": {
 		"@vueuse/core": "^10.9.0",
-		"element-plus": "^2.7.0",
 		"vue": "^3.4.23",
 		"vue-i18n": "^9.12.1"
 	},
 	"dependencies": {
+		"element-plus": "^2.7.0",
 		"@element-plus/icons-vue": "^2.3.1",
 		"dayjs": "^1.11.10",
 		"lodash-es": "^4.17.21",

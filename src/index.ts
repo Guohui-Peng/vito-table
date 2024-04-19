@@ -1,5 +1,5 @@
-import VtTableV2 from "./components/VtTableV2.vue";
-import VtTable from "./components/VtTable.vue";
+import VitoTableV2 from "./components/VitoTableV2.vue";
+import VitoTable from "./components/VitoTable.vue";
 import "uno.css";
 
-export { VtTableV2, VtTable };
+export { VitoTableV2, VitoTable };

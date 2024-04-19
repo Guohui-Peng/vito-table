@@ -10,7 +10,7 @@ import type { VtTable } from "@/types";
  * @returns 格式化后的日期时间
  */
 export const datetimeFormat = (
-	value?: string | number | Date | dayjs.Dayjs,
+	value?: string | number | Date | dayjs.Dayjs | null,
 	dateType: VtTable.DateType | string = "date"
 ): string => {
 	if (value) {
@@ -29,9 +29,10 @@ export const datetimeFormat = (
  * @param {String | null} value 时间
  * @returns 格式化后的时间
  */
-export const timeFormat = (value?: string | number | Date | dayjs.Dayjs): string => {
+export const timeFormat = (value?: String | number | Date | dayjs.Dayjs | null): string => {
 	if (value) {
-		return dayjs(value).format("HH:mm:ss");
+		const v = value.toString();
+		return dayjs(v).format("HH:mm:ss");
 	} else {
 		return "";
 	}
@@ -43,7 +44,7 @@ export const timeFormat = (value?: string | number | Date | dayjs.Dayjs): string
  * @param {"date" | "datetime" | "time"} type 日期时间类型
  */
 export const datetimeCellFormat = (
-	value?: string | number | Date | dayjs.Dayjs,
+	value?: string | number | Date | dayjs.Dayjs | null,
 	type: VtTable.TableDateTimeType | string = "date"
 ): string => {
 	let formatValue = undefined;

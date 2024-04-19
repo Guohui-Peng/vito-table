@@ -7,26 +7,33 @@
 		"dist",
 		".vscode",
 		"src/**/*.spec.ts",
-		"src/**/*.test.ts",
-		"src/**/*.d.ts"
+		"src/**/*.test.ts"		
 	],
 	"compilerOptions": {
 		"strict": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		},
 		"typeRoots": [
 			"./node_modules/@types",
 			"./src/types",
 			"./node_modules/element-plus",
 			"./node_modules/dayjs"
 		],
-		"composite": true,
+		"target": "ES2020",
+		"module": "preserve",
+		// "module": "ESNext",
+		"sourceMap": true,
+		"outDir": "dist",
 		"allowJs": true,
 		"jsx": "preserve",
-		"declaration": true,
-		"outDir": "types",
-		"baseUrl": ".",
-		"noEmit": false
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"noEmit": false,
+		// "types": ["element-plus/global"],
+		// "lib": ["es2020", "dom"],
+		//"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"moduleResolution": "bundler"
 	}
 }

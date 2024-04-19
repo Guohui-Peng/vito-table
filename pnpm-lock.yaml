@@ -14,6 +14,9 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
+      element-plus:
+        specifier: ^2.7.0
+        version: 2.7.0(vue@3.4.23(typescript@5.4.5))
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -48,9 +51,6 @@ importers:
       '@vueuse/core':
         specifier: ^10.9.0
         version: 10.9.0(vue@3.4.23(typescript@5.4.5))
-      element-plus:
-        specifier: ^2.7.0
-        version: 2.7.0(vue@3.4.23(typescript@5.4.5))
       sass:
         specifier: ^1.75.0
         version: 1.75.0

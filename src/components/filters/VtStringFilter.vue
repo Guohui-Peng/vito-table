@@ -20,7 +20,7 @@ const filterString = ref("");
 const { t } = useI18n();
 
 const showFilterMore = ref(false);
-const filterMoreString = ref(null);
+const filterMoreString = ref<VtTable.Filter | null | undefined>(null);
 const field = computed(() => props.column.dataKey || props.column.key);
 
 const filterMoreButtons = ref<VtTable.FilterMoreMenuItem<"button" | "divider">[]>([
@@ -139,7 +139,7 @@ function onFilter() {
 	// console.log("onFilter");
 	clearFilterMoreSelections();
 	filterMoreString.value = null;
-	popoverRef.value.hide();
+	popoverRef.value!.hide();
 
 	emit("filtered", field.value, filteredString.value);
 }
@@ -149,18 +149,18 @@ function onReset() {
 	filterString.value = "";
 	clearFilterMoreSelections();
 	filterMoreString.value = null;
-	popoverRef.value.hide();
+	popoverRef.value!.hide();
 	emit("filtered", field.value, null);
 }
 
-let filterButton = null;
-let prevFilterButton = null;
-let prevFilterString = null;
+let filterButton: any = null;
+let prevFilterButton: any = null;
+let prevFilterString: any = null;
 /**
  * 点击更多筛选的项时的处理逻辑
  * @param {Object} item 当前选择的项
  */
-function onFilterMore(item) {
+function onFilterMore(item: VtTable.FilterMoreMenuItem<"button">) {
 	// console.log("onFilterMore", item);
 	// console.log("column", props.column);
 	prevFilterButton = filterButton;
@@ -180,7 +180,7 @@ function onFilterMore(item) {
 		}
 	} else if (filterButton.key != item.key) {
 		filterButton.checked = false;
-		prevFilterString = Object.assign({}, filterMoreString.value);
+		prevFilterString = Object.assign({}, filterMoreString.value ?? {});
 		// 自定义的时候指定op，其它为key
 		if (item.key === "CustomFilter") {
 			filterMoreString.value = {
@@ -195,7 +195,7 @@ function onFilterMore(item) {
 		}
 	}
 	filterButton = item;
-	filterMoreRef.value.hide();
+	filterMoreRef.value!.hide();
 }
 
 function onCancelFilterMore() {
@@ -207,9 +207,9 @@ function onCancelFilterMore() {
 	}
 }
 
-function onFilteredMore(val) {
+function onFilteredMore(val: any) {
 	// console.log("onFilteredMore val", val);
-	if (filterButton != null) {
+	if (filterButton) {
 		// 使用更多选择时，清空输入框的值
 		filterString.value = "";
 
@@ -297,7 +297,7 @@ function onFilteredMore(val) {
 				</div>
 			</template>
 		</el-popover>
-		<vt-string-filter-more
+		<VtStringFilterMore
 			v-model:show="showFilterMore"
 			v-model:filter="filterMoreString"
 			:field="column.dataKey"
