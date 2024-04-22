@@ -10,6 +10,9 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 import { resolve, dirname } from "node:path";
 
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+
 function pathResolve(dir) {
 	return resolve(__dirname, ".", dir);
 }
@@ -41,7 +44,7 @@ export default defineConfig({
 			],
 			dirs: ["./src/utils/functions"],
 			dts: "./src/types/auto-imports.d.ts"
-		}),
+		})
 		// dts({
 		// 	beforeWriteFile: (filePath, content) => ({
 		// 		filePath: filePath.replace("path/to/file.d.ts", "index.d.ts"),
@@ -55,17 +58,25 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: "./src/index.ts",
-			name: "VtTable",
-			fileName: "vt-table",
-			formats: ["es"]
+			name: "VitoTable",
+			fileName: "index"
+			// formats: ["es"],
 		},
+		minify: "esbuild",
+		sourcemap: true,
+		cssCodeSplit: true,
 		rollupOptions: {
 			// 不想打包进库的依赖
-			external: ["vue", "@vueuse/core", "element-plus", "xlsx"],
+			external: ["vue", "element-plus", "@element-plus/icons-vue", "vue-i18n", "xlsx", "dayjs"],
 			output: {
 				// 为外部的依赖提供一个全局变量
 				globals: {
-					vue: "Vue"
+					vue: "Vue",
+					xlsx: "XLSX",
+					"element-plus": "ElementPlus",
+					"vue-i18n": "VueI18n",
+					"@element-plus/icons-vue": "ElementPlusIconsVue",
+					dayjs: "dayjs"
 				}
 			}
 		}

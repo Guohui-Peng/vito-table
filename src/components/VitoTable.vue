@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { Delete, Upload, CirclePlus, RefreshRight, Download } from "@element-plus/icons-vue";
+import { Delete, CirclePlus, RefreshRight, Download } from "@element-plus/icons-vue";
 
 import { filterRow } from "./filters/filter";
 import VtTableDialog from "./VtTableDialog.vue";

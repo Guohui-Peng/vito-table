@@ -1,6 +1,6 @@
 <script lang="jsx" setup>
 import { ref, computed, onMounted, watch, toValue } from "vue";
-import { Delete, Upload, CirclePlus, RefreshRight, Download } from "@element-plus/icons-vue";
+import { Delete, CirclePlus, RefreshRight, Download } from "@element-plus/icons-vue";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useI18n } from "vue-i18n";
@@ -192,29 +192,29 @@ const currentPageData = computed(() => {
 });
 
 // 是否显示下载按钮
-const showRowEditButton = computed(()=>{
+const showRowEditButton = computed(() => {
 	return props.showRowEditButton && props.canEdit;
-})
+});
 
-const showRowDeleteButton = computed(()=>{
+const showRowDeleteButton = computed(() => {
 	return props.showRowDeleteButton && props.canDelete;
-})
+});
 
-const showEditButton = computed(()=>{
+const showEditButton = computed(() => {
 	return props.canEdit;
-})
+});
 
-const showDeleteButton = computed(()=>{
+const showDeleteButton = computed(() => {
 	return props.canDelete;
-})
+});
 
-const showDownloadButton = computed(()=>{
+const showDownloadButton = computed(() => {
 	return props.showDownloadButton && props.canExport;
-})
+});
 
-const showAddButton = computed(()=>{
+const showAddButton = computed(() => {
 	return props.canAdd;
-})
+});
 
 // 总数量
 const total = computed(() => (props.remote ? remoteTotal.value : filteredData.value.length));

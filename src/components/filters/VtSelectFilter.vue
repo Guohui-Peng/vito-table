@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, watch } from "vue";
-import { Search, ArrowRight, Select as SelectIcon } from "@element-plus/icons-vue";
+import { ref, computed } from "vue";
+import { Search } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
 import { parseOptions } from "../utils";
 
@@ -48,7 +48,9 @@ const filteredString = computed(() => {
 });
 
 const options = computed(() => {
-	return parseOptions(props.column.searchoptions?.options || props.column.editoptions?.options || []);
+	return parseOptions(
+		props.column.searchoptions?.options || props.column.editoptions?.options || []
+	);
 });
 
 /**
