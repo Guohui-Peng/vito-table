@@ -1,40 +1,12 @@
 {
-	"extends": "@vue/tsconfig/tsconfig.dom.json",
-	"include": ["src/**/*", "src/**/*.vue"],
-	"exclude": [
-		"node_modules",
-		"build",
-		"dist",
-		".vscode",
-		"src/**/*.spec.ts",
-		"src/**/*.test.ts"		
-	],
-	"compilerOptions": {
-		"strict": true,
-		"typeRoots": [
-			"./node_modules/@types",
-			"./src/types",
-			"./node_modules/element-plus",
-			"./node_modules/dayjs"
-		],
-		"target": "ES2020",
-		"module": "ESNext",
-		// "module": "ESNext",
-		"sourceMap": false,
-		"outDir": "dist",
-		"allowJs": true,
-		"jsx": "preserve",
-		"isolatedModules": true,
-		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"noEmit": false,
-		// "types": ["element-plus/global"],
-		// "lib": ["es2020", "dom"],
-		"baseUrl": ".",
-		"rootDir": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"moduleResolution": "bundler"
-	}
-}
+	"files": [],
+	"references": [
+	  {
+		"path": "./tsconfig.node.json"
+	  },
+	  {
+		"path": "./tsconfig.app.json"
+	  }
+	]
+  }
+  

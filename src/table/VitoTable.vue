@@ -1032,15 +1032,15 @@ onMounted(() => {
 				<slot name="pagination" :selected-rows="selectedItems"></slot>
 			</el-pagination>
 		</el-scrollbar>
-		<vt-table-dialog
+		<VtTableDialog
 			v-model:data="form"
 			v-model:show="dialogFormVisible"
 			:columns="columns"
 			:operation="operation"
 			@confirm="onModified"
 		/>
-		<vt-column-selector v-model="customColumns" v-model:show="dialogColumnSelector" />
-		<vt-export-dialog
+		<VtColumnSelector v-model="customColumns" v-model:show="dialogColumnSelector" />
+		<VtExportDialog
 			:columns="tableColumns"
 			:data="exportData"
 			v-model:show="showExportDialog"
