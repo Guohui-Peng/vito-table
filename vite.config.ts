@@ -67,7 +67,14 @@ export default defineConfig({
 		cssCodeSplit: true,
 		rollupOptions: {
 			// 不想打包进库的依赖
-			external: ["vue", "element-plus", "@element-plus/icons-vue", "vue-i18n", "xlsx", "dayjs"],
+			external: [
+				"vue",
+				"element-plus",
+				"@element-plus/icons-vue",
+				"vue-i18n",
+				"xlsx",
+				"dayjs"
+			],
 			output: {
 				// 为外部的依赖提供一个全局变量
 				globals: {

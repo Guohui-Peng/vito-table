@@ -5,8 +5,8 @@ import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useI18n } from "vue-i18n";
 
-import { ElMessage, TableV2SortOrder } from "element-plus";
-import "element-plus/theme-chalk/src/message.scss";
+import { ElMessage, TableV2SortOrder, ElMessageBox } from "element-plus";
+// import "element-plus/theme-chalk/src/message.scss";
 
 import { filterRow, VtHeaderFilter } from "@/components/filters";
 import { VtCell, VtTableDialog, VtColumnSelector, VtExportDialog } from "@/components";
