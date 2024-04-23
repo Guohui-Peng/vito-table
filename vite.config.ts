@@ -10,8 +10,8 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 import { resolve, dirname } from "node:path";
 
-import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+// import Components from "unplugin-vue-components/vite";
+// import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 function pathResolve(dir) {
 	return resolve(__dirname, ".", dir);
@@ -63,7 +63,7 @@ export default defineConfig({
 			// formats: ["es"],
 		},
 		minify: "esbuild",
-		sourcemap: true,
+		sourcemap: false,
 		cssCodeSplit: true,
 		rollupOptions: {
 			// 不想打包进库的依赖

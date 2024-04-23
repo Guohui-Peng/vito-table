@@ -1,4 +1,11 @@
-import VtSelectCell from "./VtSelectCell.vue";
-import VtCell from "./VtCell.vue";
+import { easyInstall, easyNoopInstall } from "@/utils";
+import SelectCell from "./src/VtSelectCell.vue";
+import Cell from "./src/VtCell.vue";
 
-export { VtSelectCell, VtCell };
+export const VtCell = easyInstall(Cell, { SelectCell });
+
+export const VtSelectCell = easyNoopInstall(SelectCell);
+
+export default VtCell;
+
+export * from "./src/instance";

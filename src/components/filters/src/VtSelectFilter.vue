@@ -2,7 +2,7 @@
 import { ref, computed } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { useI18n } from "vue-i18n";
-import { parseOptions } from "../utils";
+import { parseOptions } from "@/utils";
 
 import type { VtTable } from "@/types";
 import { ElPopover } from "element-plus";

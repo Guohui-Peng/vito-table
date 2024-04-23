@@ -3,16 +3,13 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { Delete, CirclePlus, RefreshRight, Download } from "@element-plus/icons-vue";
 
-import { filterRow } from "./filters/filter";
-import VtTableDialog from "./VtTableDialog.vue";
-import VtExportDialog from "./exports/VtExportDialog.vue";
-import VtColumnSelector from "./VtColumnSelector.vue";
-import { numberFormat, integerFormat } from "./filters/format";
-import { VtHeaderFilter } from "./filters";
-import { VtCell } from "./cells";
-import { useApiFetch } from "./vtFetch";
-import { cacheSelectOptions } from "./utils";
+import { VtHeaderFilter, filterRow, numberFormat, integerFormat } from "@/components/filters";
+import { VtCell, VtTableDialog, VtColumnSelector, VtExportDialog } from "@/components";
+
+import { useApiFetch, cacheSelectOptions } from "@/utils";
+
 import { ElMessage, ElMessageBox } from "element-plus";
+import "element-plus/theme-chalk/src/message.scss";
 
 import type { ElTableColumn, ElTable } from "element-plus";
 import type { VtTable as VT } from "@/types";

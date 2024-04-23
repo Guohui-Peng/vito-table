@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from "vue";
-import { numberFormat, integerFormat, datetimeCellFormat } from "../filters/format";
+import { numberFormat, integerFormat, datetimeCellFormat } from "@/components/filters";
 import VtSelectCell from "./VtSelectCell.vue";
 
 import type { VtTable } from "@/types";

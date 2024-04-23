@@ -1,0 +1,21 @@
+import type VtHeaderFilter from "./VtHeaderFilter.vue";
+import type VtDatetimeFilter from "./VtDatetimeFilter.vue";
+import type VtDatetimeFilterMore from "./VtDatetimeFilterMore.vue";
+import type VtNumberFilter from "./VtNumberFilter.vue";
+import type VtNumberFilterMore from "./VtNumberFilterMore.vue";
+import type VtSelectFilter from "./VtSelectFilter.vue";
+import type VtStringFilter from "./VtStringFilter.vue";
+import type VtStringFilterMore from "./VtStringFilterMore.vue";
+import type VtTimeFilter from "./VtTimeFilter.vue";
+import type VtTimeFilterMore from "./VtTimeFilterMore.vue";
+
+export type VtHeaderFilterInstance = InstanceType<typeof VtHeaderFilter>;
+export type VtDatetimeFilterInstance = InstanceType<typeof VtDatetimeFilter>;
+export type VtDatetimeFilterMoreInstance = InstanceType<typeof VtDatetimeFilterMore>;
+export type VtSelectFilterInstance = InstanceType<typeof VtSelectFilter>;
+export type VtNumberFilterInstance = InstanceType<typeof VtNumberFilter>;
+export type VtNumberFilterMoreInstance = InstanceType<typeof VtNumberFilterMore>;
+export type VtStringFilterInstance = InstanceType<typeof VtStringFilter>;
+export type VtStringFilterMoreInstance = InstanceType<typeof VtStringFilterMore>;
+export type VtTimeFilterInstance = InstanceType<typeof VtTimeFilter>;
+export type VtTimeFilterMoreInstance = InstanceType<typeof VtTimeFilterMore>;

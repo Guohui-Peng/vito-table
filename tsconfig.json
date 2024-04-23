@@ -18,9 +18,9 @@
 			"./node_modules/dayjs"
 		],
 		"target": "ES2020",
-		"module": "preserve",
+		"module": "ESNext",
 		// "module": "ESNext",
-		"sourceMap": true,
+		"sourceMap": false,
 		"outDir": "dist",
 		"allowJs": true,
 		"jsx": "preserve",
@@ -30,7 +30,8 @@
 		"noEmit": false,
 		// "types": ["element-plus/global"],
 		// "lib": ["es2020", "dom"],
-		//"baseUrl": ".",
+		"baseUrl": ".",
+		"rootDir": ".",
 		"paths": {
 			"@/*": ["./src/*"]
 		},

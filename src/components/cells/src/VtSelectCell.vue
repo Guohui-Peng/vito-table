@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from "vue";
-import { parseOptions } from "../utils";
+import { parseOptions } from "@/utils";
 
 const props = withDefaults(
 	defineProps<{

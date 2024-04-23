@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ElSelect } from "element-plus";
-import { parseOptions } from "./utils";
+import { parseOptions } from "@/utils";
 import type { VtTable } from "@/types";
 
 const props = withDefaults(

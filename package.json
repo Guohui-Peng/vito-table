@@ -1,6 +1,6 @@
 {
 	"name": "vito-table",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "A Vue 3 component for displaying tables with sorting, filtering, and pagination.",
 	"type": "module",
 	"module": "./dist/index.js",
@@ -29,6 +29,7 @@
 		"@unocss/preset-icons": "^0.59.3",
 		"@vitejs/plugin-vue": "^5.0.4",
 		"@vitejs/plugin-vue-jsx": "^3.1.0",
+		"@vue/shared": "^3.4.24",
 		"@vue/tsconfig": "^0.5.1",
 		"@vueuse/core": "^10.9.0",
 		"sass": "^1.75.0",

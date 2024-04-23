@@ -1,6 +1,4 @@
 import "virtual:uno.css";
-import VitoTableV2 from "./components/VitoTableV2.vue";
-import VitoTable from "./components/VitoTable.vue";
 
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
@@ -13,6 +11,11 @@ import { createI18n } from "vue-i18n";
 // 加载本程序中使用的语言包，语言包路径在vite.config.js中配置
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import type { ComponentInternalInstance } from "vue";
+
+import VitoTable from "@/table";
+import VitoTableV2 from "@/table-v2";
+
+export { VitoTableV2, VitoTable };
 
 const i18n = createI18n({
 	legacy: false, // you must set `false`, to use Composition API
@@ -42,16 +45,14 @@ const i18n = createI18n({
 	}
 });
 
-export { VitoTableV2, VitoTable };
-
 export default {
-	install: (app: App, options: any) => {
-		app.use(ElementPlus);
-		app.use(i18n);
+	install: (app: App, options?: any) => {
+		// app.use(ElementPlus);
+		// app.use(i18n);
 		// 全局注册图标
-		for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-			app.component(key, component);
-		}
+		// for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+		// 	app.component(key, component);
+		// }
 		app.component("VitoTableV2", VitoTableV2);
 		app.component("VitoTable", VitoTable);
 	}

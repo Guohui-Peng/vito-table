@@ -4,16 +4,14 @@ import { Delete, CirclePlus, RefreshRight, Download } from "@element-plus/icons-
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { useI18n } from "vue-i18n";
-import { ElMessage, TableV2SortOrder } from "element-plus";
 
-import VtTableDialog from "./VtTableDialog.vue";
-import VtColumnSelector from "./VtColumnSelector.vue";
-import VtExportDialog from "./exports/VtExportDialog.vue";
-import { filterRow } from "./filters/filter";
-import { useApiFetch } from "./vtFetch";
-import { VtHeaderFilter } from "./filters";
-import { VtCell } from "./cells";
-import { cacheSelectOptions } from "./utils";
+import { ElMessage, TableV2SortOrder } from "element-plus";
+import "element-plus/theme-chalk/src/message.scss";
+
+import { filterRow, VtHeaderFilter } from "@/components/filters";
+import { VtCell, VtTableDialog, VtColumnSelector, VtExportDialog } from "@/components";
+
+import { useApiFetch, cacheSelectOptions } from "@/utils";
 
 defineOptions({
 	inheritAttrs: false
