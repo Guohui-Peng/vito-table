@@ -13,8 +13,8 @@
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
         "noEmit": false,
-		"baseUrl": ".",
-        "rootDir": "./src",
+		// "baseUrl": ".",
+        // "rootDir": "./src",
 		"paths": {
 			"@/*": ["./src/*"]
 		}
