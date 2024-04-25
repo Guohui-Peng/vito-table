@@ -46,8 +46,11 @@ function customFormatter(
 	if (formatter === true) {
 		if (formatoptions && formatoptions.custom) {
 			if (typeof formatoptions.custom === "string") {
-				return eval(formatoptions.custom)(row, col, cell_value, index);
-			} else {
+				const fn = new Function("row", "col", "cell_value", "index", formatoptions.custom);
+				return fn(row, col, cell_value, index);
+			} else if (typeof formatoptions.custom === "function") {
+			// 	return eval(formatoptions.custom)(row, col, cell_value, index);
+			// } else {
 				return formatoptions.custom(row, col, cell_value, index);
 			}
 		}

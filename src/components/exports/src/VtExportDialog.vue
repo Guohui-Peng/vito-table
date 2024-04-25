@@ -103,7 +103,7 @@ function onRangeChanged(val) {
 </script>
 
 <template>
-	<el-dialog
+	<ElDialog
 		v-model="dialogFormVisible"
 		:title="t('Table.Export')"
 		:width="width"
@@ -146,5 +146,5 @@ function onRangeChanged(val) {
 				</el-button>
 			</span>
 		</template>
-	</el-dialog>
+	</ElDialog>
 </template>

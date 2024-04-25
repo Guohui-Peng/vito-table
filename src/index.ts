@@ -1,6 +1,6 @@
 import "virtual:uno.css";
 
-import ElementPlus from "element-plus";
+// import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 // 导入图标，因为动态使用，需全局导入
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";

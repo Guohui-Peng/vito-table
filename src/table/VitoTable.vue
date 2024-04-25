@@ -11,7 +11,7 @@ import { useApiFetch, cacheSelectOptions } from "@/utils";
 import { ElMessage, ElMessageBox } from "element-plus";
 // import "element-plus/theme-chalk/src/message.scss";
 
-import type { ElTableColumn, ElTable } from "element-plus";
+import type { ElTable } from "element-plus";
 import type { VtTable as VT } from "@/types";
 
 defineOptions({
