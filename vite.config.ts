@@ -30,7 +30,7 @@ export default defineConfig({
 		UnoCSS(),
 		VueI18nPlugin({
 			// locale messages resource pre-compile option
-			include: pathResolve("./src/locales/**")
+			include: pathResolve("./src/locales/lang/**")
 		}),
 		AutoImport({
 			imports: [
