@@ -4,7 +4,7 @@
 	"exclude": ["node_modules", "build", "dist", ".vscode", "src/**/*.spec.ts", "src/**/*.test.ts"],
 	"compilerOptions": {
 		"composite": true,
-		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+		// "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 		"outDir": "dist",
 		"allowJs": true,
 		"target": "ES2020",
@@ -19,7 +19,7 @@
 		"baseUrl": ".",
 		"rootDir": "./src",
 		"declaration": true,
-		"declarationDir": "./dist/types",
+		"declarationDir": "./types",
 		"paths": {
 			"@/*": ["./src/*"]
 		}

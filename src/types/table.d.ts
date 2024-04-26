@@ -644,16 +644,6 @@ declare namespace VtTable {
 	}
 	// #endregion
 
-	/**
-	 * 过滤行
-	 */
-	interface FilterRowFunc {
-		/**
-		 *
-		 */
-		(row: any, filter: Filter): boolean;
-	}
-
 	// #region FilterMoreButton
 	type FilterMoreMenuItemSpecialType = {
 		button: {
@@ -685,7 +675,7 @@ declare namespace VtTable {
 	}
 
 	interface SortChangeParams {
-		column: TableColumnCtx;
+		column: TableColumnCtx<any>;
 		prop: string;
 		order: SortOrderType;
 	}

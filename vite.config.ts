@@ -43,7 +43,7 @@ export default defineConfig({
 				}
 			],
 			dirs: ["./src/utils/functions"],
-			dts: "./typings/auto-imports.d.ts"
+			dts: "./src/types/auto-imports.d.ts"
 		}),
 		// dts({
 		// 	tsconfigPath: "tsconfig.app.json"
