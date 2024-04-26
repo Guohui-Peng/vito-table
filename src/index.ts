@@ -1,7 +1,7 @@
 import "virtual:uno.css";
 import "element-plus/dist/index.css";
 
-import { ref, provide, inject } from "vue";
+import { ref, provide, inject, toValue } from "vue";
 import { useI18n, createI18n } from "vue-i18n";
 
 import type { I18n } from "vue-i18n";
@@ -13,13 +13,10 @@ import zhCn from "@/locales/lang/zh-cn.json";
 import VitoTable from "@/table";
 import VitoTableV2 from "@/table-v2";
 
-const messages = {
-	"en-US": {
-		...en
-	},
-	"zh-CN": {
-		...zhCn
-	}
+const messages: Record<string, any> = {
+	en: en,
+	"en-US": en,
+	"zh-CN": zhCn
 };
 
 const apiServerSymbol = Symbol();
@@ -41,20 +38,48 @@ export function useRemoteApi() {
 	return { apiServer };
 }
 
-export function createVitoTable(locale: string, api_server?: string) {
-	if (api_server) {
-		provideApiServer(api_server);
+/**
+ * Options for creating VitoTable.
+ */
+export interface VitoTableOptions {
+	/**
+	 * 当前语言
+	 */
+	locale?: string;
+	/**
+	 * API 服务器地址
+	 */
+	api_server?: string;
+	/**
+	 * i18n 实例
+	 */
+	i18n?: I18n;
+}
+
+export function createVitoTable(options: VitoTableOptions) {
+	if (options.api_server) {
+		provideApiServer(options.api_server);
 	}
 
-	function install(app: App, options: any): void {
-		const i18n = createI18n({
-			legacy: false,
-			locale: locale,
-			fallbackLocale: ["en", "en-US", "zh-CN"],
-			messages
-		});
+	function install(app: App): void {
+		if (options?.i18n) {
+			const i18n = options.i18n;
+			const locale = toValue(i18n.global.locale) || "en-US";
+			const localMessages: Record<string, any> = i18n.global.getLocaleMessage(locale);
+			const message: Record<string, any> = messages[locale] as Record<string, any>;
+			const mergedMessages = { ...message, ...localMessages };
+			i18n.global.setLocaleMessage(locale, mergedMessages);
+		} else {
+			const locale = options.locale || "en-US";
+			const i18n = createI18n({
+				legacy: false,
+				locale: locale,
+				fallbackLocale: ["en", "en-US", "zh-CN"],
+				messages: messages
+			});
+			app.use(i18n);
+		}
 
-		app.use(i18n);
 		app.use(VitoTable);
 		app.use(VitoTableV2);
 	}
