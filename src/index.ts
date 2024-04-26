@@ -1,8 +1,10 @@
 import "virtual:uno.css";
 import "element-plus/dist/index.css";
 
-import { ref, provide, inject, toValue } from "vue";
+import { ref, toValue } from "vue";
 import { useI18n, createI18n } from "vue-i18n";
+
+import { provideApiServer } from "./utils";
 
 import type { I18n } from "vue-i18n";
 import type { App } from "vue";
@@ -19,24 +21,7 @@ const messages: Record<string, any> = {
 	"zh-CN": zhCn
 };
 
-const apiServerSymbol = Symbol();
-
-const provideApiServer = (server: string) => {
-	provide(apiServerSymbol, server);
-};
-
 export { VitoTableV2, VitoTable };
-
-/**
- * Use remote API.
- * @returns { apiServer: string }
- */
-export function useRemoteApi() {
-	const apiServer = inject(apiServerSymbol);
-	if (!apiServer) throw new Error("No API server provided!!!");
-
-	return { apiServer };
-}
 
 /**
  * Options for creating VitoTable.
