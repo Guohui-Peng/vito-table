@@ -3,10 +3,10 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 // import path from "path";
 import { fileURLToPath, URL } from "node:url";
-import dts from "vite-plugin-dts";
+// import dts from "vite-plugin-dts";
 import AutoImport from "unplugin-auto-import/vite";
 import UnoCSS from "unocss/vite";
-import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
+// import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 
 import { resolve, dirname } from "node:path";
 
@@ -28,10 +28,10 @@ export default defineConfig({
 		vue(),
 		vueJsx(),
 		UnoCSS(),
-		VueI18nPlugin({
-			// locale messages resource pre-compile option
-			include: pathResolve("./src/locales/lang/**")
-		}),
+		// VueI18nPlugin({
+		// 	// locale messages resource pre-compile option
+		// 	include: pathResolve("./src/locales/lang/**")
+		// }),
 		AutoImport({
 			imports: [
 				"vue",
