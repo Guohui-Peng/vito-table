@@ -79,9 +79,9 @@ export function createVitoTable(options: VitoTableOptions) {
 			});
 			app.use(i18n);
 		}
-
-		app.use(VitoTable);
-		app.use(VitoTableV2);
+		// 组合模式使用，不用全局注册
+		// app.use(VitoTable);
+		// app.use(VitoTableV2);
 	}
 
 	return {
