@@ -4,7 +4,7 @@ import "element-plus/dist/index.css";
 import { ref, toValue } from "vue";
 import { useI18n, createI18n } from "vue-i18n";
 
-import { provideApiServer } from "./utils";
+import { provideApiServer, provideToken } from "./utils";
 
 import type { I18n } from "vue-i18n";
 import type { App } from "vue";
@@ -39,11 +39,19 @@ export interface VitoTableOptions {
 	 * i18n 实例
 	 */
 	i18n?: I18n;
+	/**
+	 * Access token，用于访问 API 资源
+	 */
+	token?: Ref<string | undefined | null>;
 }
 
 export function createVitoTable(options: VitoTableOptions) {
 	if (options.api_server) {
 		provideApiServer(options.api_server);
+	}
+
+	if (options.token) {
+		provideToken(options.token);
 	}
 
 	function install(app: App): void {
