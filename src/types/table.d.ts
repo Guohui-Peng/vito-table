@@ -1,4 +1,5 @@
 import type { BookType } from "xlsx";
+import type { TableColumnCtx } from "element-plus";
 
 declare namespace VtTable {
 	// #region Filter

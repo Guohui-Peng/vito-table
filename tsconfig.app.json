@@ -1,20 +1,25 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.dom.json",
-	"include": ["env.d.ts", "src/**/*", "src/**/*.vue", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
-	"exclude": ["src/**/__tests__/*"],
+	"include": ["src/**/*", "src/**/*.vue", "typings/*.d.ts", "src/**/*.ts", "src/**/*.d.ts"],
+	"exclude": ["node_modules", "build", "dist", ".vscode", "src/**/*.spec.ts", "src/**/*.test.ts"],
 	"compilerOptions": {
 		"composite": true,
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-
 		"outDir": "dist",
 		"allowJs": true,
+		"target": "ES2020",
+		"module": "preserve",
+		"moduleResolution": "Bundler",
 		"jsx": "preserve",
 		"isolatedModules": true,
-		"resolveJsonModule": true,
+		"resolveJsonModule": false,
 		"esModuleInterop": true,
-        "noEmit": false,
-		// "baseUrl": ".",
-        // "rootDir": "./src",
+		"noEmit": false,
+		"strict": true,
+		"baseUrl": ".",
+		"rootDir": "./src",
+		"declaration": true,
+		"declarationDir": "./dist/types",
 		"paths": {
 			"@/*": ["./src/*"]
 		}

@@ -4,7 +4,7 @@
 	"description": "A Vue 3 component for displaying tables with sorting, filtering, and pagination.",
 	"type": "module",
 	"module": "./dist/index.js",
-	"types": "./dist/src/index.d.ts",
+	"types": "./dist/types/index.d.ts",
 	"homepage": "https://github.com/guohui-peng/vito-table",
 	"repository": "github:guohui-peng/vito-table",
 	"files": [

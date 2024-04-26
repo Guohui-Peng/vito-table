@@ -13,15 +13,15 @@ import { resolve, dirname } from "node:path";
 // import Components from "unplugin-vue-components/vite";
 // import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
-function pathResolve(dir) {
+function pathResolve(dir: string) {
 	return resolve(__dirname, ".", dir);
 }
 
 export default defineConfig({
 	resolve: {
 		alias: {
-			"@": fileURLToPath(new URL("./src", import.meta.url)),
-			"~": fileURLToPath(new URL("./src", import.meta.url))
+			"@": pathResolve("./src"),
+			"~": pathResolve("./src")
 		}
 	},
 	plugins: [
@@ -43,16 +43,10 @@ export default defineConfig({
 				}
 			],
 			dirs: ["./src/utils/functions"],
-			dts: "./src/types/auto-imports.d.ts"
-		})
+			dts: "./typings/auto-imports.d.ts"
+		}),
 		// dts({
-		// 	beforeWriteFile: (filePath, content) => ({
-		// 		filePath: filePath.replace("path/to/file.d.ts", "index.d.ts"),
-		// 		content
-		// 	}),
-		// 	pathsToAliases: true,
-		// 	outputDir: pathResolve("./dist/types"),
-		// 	include: ["./src/types/**/*.d.ts"]
+		// 	tsconfigPath: "tsconfig.app.json"
 		// })
 	],
 	build: {
