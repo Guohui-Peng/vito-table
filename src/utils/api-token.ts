@@ -1,20 +1,20 @@
 import { inject, provide, type Ref } from "vue";
 
-const tokenSymbol = Symbol();
-
 /**
  * Use token.
  * @returns { token: Ref<string> }
  */
 export function useToken() {
+	const TOKEN_KEY:string = "VITO-TABLE-TOKEN";
+
 	function provideToken(token: Ref<string> | string | null | undefined) {
 		if (!token) {
 			throw new Error("Token cannot be null or undefined");
 		}
-		provide(tokenSymbol, toRef(token));
+		provide(TOKEN_KEY, toRef(token));
 	}
 
-	const token = inject<Ref<string>>(tokenSymbol);
+	const token = inject<Ref<string>>(TOKEN_KEY);
 
 	return { token, provideToken };
 }

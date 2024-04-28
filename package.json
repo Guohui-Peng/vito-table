@@ -1,6 +1,6 @@
 {
 	"name": "vito-table",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"description": "A Vue 3 component for displaying tables with sorting, filtering, and pagination.",
 	"type": "module",
 	"module": "./dist/index.js",
