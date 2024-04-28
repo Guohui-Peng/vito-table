@@ -1,9 +1,9 @@
-import { provide, inject } from "vue";
+import { inject, type App } from "vue";
 
 const apiServerSymbol = Symbol();
 
-export const provideApiServer = (server: string) => {
-	provide(apiServerSymbol, server);
+export const provideApiServer = (app: App, server: string) => {
+	app.provide(apiServerSymbol, server);
 };
 
 /**

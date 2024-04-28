@@ -1,10 +1,10 @@
-import { provide, inject } from "vue";
-import type { Ref } from "vue";
+import { inject } from "vue";
+import type { Ref, App } from "vue";
 
 const tokenSymbol = Symbol();
 
-export const provideToken = (token: Ref<string | undefined | null>) => {
-	provide(tokenSymbol, token);
+export const provideToken = (app: App, token: Ref<string | undefined | null>) => {
+	app.provide(tokenSymbol, token);
 };
 
 /**

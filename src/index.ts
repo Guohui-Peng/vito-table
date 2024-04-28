@@ -51,15 +51,15 @@ export interface VitoTableOptions {
  * @returns install 函数
  */
 export function createVitoTable(options: VitoTableOptions) {
-	if (options.api_server) {
-		provideApiServer(options.api_server);
-	}
-
-	if (options.token) {
-		provideToken(options.token);
-	}
-
 	function install(app: App): void {
+		if (options.api_server) {
+			provideApiServer(app, options.api_server);
+		}
+
+		if (options.token) {
+			provideToken(app, options.token);
+		}
+
 		if (options?.i18n) {
 			const i18n = options.i18n;
 			const locale = toValue(i18n.global.locale) || "en-US";
