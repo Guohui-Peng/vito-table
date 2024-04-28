@@ -1,4 +1,5 @@
 import type { VtTable } from "@/types";
+import { useApiFetch } from "./vt-fetch";
 
 /**
  * 对远程获取select的options进行缓存
@@ -8,18 +9,19 @@ import type { VtTable } from "@/types";
 export function cacheSelectOptions(
 	columns: VtTable.Column<VtTable.ColumnDataType>[]
 ): VtTable.Column<VtTable.ColumnDataType>[] {
+	const apiFetch = useApiFetch();
 	columns.forEach((col) => {
 		if (col.dataType === "select") {
 			if (col.editoptions) {
 				const options = col.editoptions as VtTable.EditOption<"select">;
 				if (options.dataUrl && options.dataUrl.length > 0) {
-					// fetch(options.dataUrl)
-					// 	.get()
-					// 	.json()
-					// 	.then((resp) => {
-					// 		// console.log(resp);
-					// 		options.options = resp.data.value;
-					// 	});
+					apiFetch(options.dataUrl)
+						.get()
+						.json()
+						.then((resp) => {
+							// console.log(resp);
+							options.options = resp.data.value;
+						});
 				}
 			}
 		}

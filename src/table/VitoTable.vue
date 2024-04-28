@@ -113,7 +113,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const apiFetch = useApiFetch(props.apiServer ?? "/api", props.token);
+const apiFetch = useApiFetch();
 
 // 表格数据，v-model绑定
 const data = computed({

@@ -1,13 +1,13 @@
 import "virtual:uno.css";
 import "element-plus/dist/index.css";
 
-import { ref, toValue } from "vue";
-import { useI18n, createI18n } from "vue-i18n";
+import { toValue } from "vue";
+import { createI18n } from "vue-i18n";
 
 import { provideApiServer, provideToken } from "./utils";
 
 import type { I18n } from "vue-i18n";
-import type { App } from "vue";
+import type { App, Ref } from "vue";
 
 import en from "@/locales/lang/en.json";
 import zhCn from "@/locales/lang/zh-cn.json";
@@ -45,6 +45,11 @@ export interface VitoTableOptions {
 	token?: Ref<string | undefined | null>;
 }
 
+/**
+ * 初始化 VitoTable 插件
+ * @param options 选项
+ * @returns install 函数
+ */
 export function createVitoTable(options: VitoTableOptions) {
 	if (options.api_server) {
 		provideApiServer(options.api_server);
