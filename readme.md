@@ -59,10 +59,27 @@ npm install vito-table
     </template>
     ```
 
+## 使用远程数据
+
+Vito Table 提供了远程数据获取功能，通过设置 `remote-data` 属性为 `true` 开启远程数据获取功能。配置详见[表格配置](#表格配置)。在使用前需配置 API Server 地址以及 Access Token。示例如下：
+
+```html
+<script lang="ts" setup>
+	import {(VitoTable, useApiFetch)} from "vito-table";
+	const {(setApiServer, setToken)} =useApiFetch();
+	setApiServer("https://api.example.com");    // 设置 API Server 地址
+	setToken("your-access-token");  // 设置 Access Token，根据需要可以使用 watch 监听 token 变化后更新 token
+</script>
+
+<template>
+	<vito-table :remote="true" :url="remoteApi" :edit-url="editUrl" />
+</template>
+```
+
 ## 表格配置
 
 [表格配置说明](https://github.com/Guohui-Peng/vito-table/blob/main/VitoTable.md)
 
 ## License
 
-Vito Table is open source software licensed under the [MIT license](https://opensource.org/licenses/MIT). 
+Vito Table is open source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

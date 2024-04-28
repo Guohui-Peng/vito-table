@@ -1,10 +1,6 @@
-import { inject, type App } from "vue";
+import { inject, provide } from "vue";
 
 const apiServerSymbol = Symbol();
-
-export const provideApiServer = (app: App, server: string) => {
-	app.provide(apiServerSymbol, server);
-};
 
 /**
  * Use remote API.
@@ -12,8 +8,9 @@ export const provideApiServer = (app: App, server: string) => {
  */
 export const useApiServer = () => {
 	const apiServer = inject<string | undefined | null>(apiServerSymbol);
-	// if (!apiServer) {
-	// 	throw new Error("Api server not provided");
-	// }
-	return { apiServer };
+
+	function provideApiServer(server: string) {
+		provide(apiServerSymbol, server);
+	}
+	return { apiServer, provideApiServer };
 };

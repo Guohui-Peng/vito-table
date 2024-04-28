@@ -4,10 +4,8 @@ import "element-plus/dist/index.css";
 import { toValue } from "vue";
 import { createI18n } from "vue-i18n";
 
-import { provideApiServer, provideToken } from "./utils";
-
 import type { I18n } from "vue-i18n";
-import type { App, Ref } from "vue";
+import type { App } from "vue";
 
 import en from "@/locales/lang/en.json";
 import zhCn from "@/locales/lang/zh-cn.json";
@@ -32,17 +30,9 @@ export interface VitoTableOptions {
 	 */
 	locale?: string;
 	/**
-	 * API 服务器地址
-	 */
-	api_server?: string;
-	/**
 	 * i18n 实例
 	 */
 	i18n?: I18n;
-	/**
-	 * Access token，用于访问 API 资源
-	 */
-	token?: Ref<string | undefined | null>;
 }
 
 /**
@@ -52,14 +42,6 @@ export interface VitoTableOptions {
  */
 export function createVitoTable(options: VitoTableOptions) {
 	function install(app: App): void {
-		if (options.api_server) {
-			provideApiServer(app, options.api_server);
-		}
-
-		if (options.token) {
-			provideToken(app, options.token);
-		}
-
 		if (options?.i18n) {
 			const i18n = options.i18n;
 			const locale = toValue(i18n.global.locale) || "en-US";
@@ -77,9 +59,6 @@ export function createVitoTable(options: VitoTableOptions) {
 			});
 			app.use(i18n);
 		}
-		// 组合模式使用，不用全局注册
-		// app.use(VitoTable);
-		// app.use(VitoTableV2);
 	}
 
 	return {

@@ -9,7 +9,8 @@ import { useApiFetch } from "./vt-fetch";
 export function cacheSelectOptions(
 	columns: VtTable.Column<VtTable.ColumnDataType>[]
 ): VtTable.Column<VtTable.ColumnDataType>[] {
-	const apiFetch = useApiFetch();
+	const api_fetch = useApiFetch();
+	const apiFetch = api_fetch.apiFetch();
 	columns.forEach((col) => {
 		if (col.dataType === "select") {
 			if (col.editoptions) {

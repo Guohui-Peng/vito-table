@@ -1,20 +1,20 @@
-import { inject } from "vue";
-import type { Ref, App } from "vue";
+import { inject, provide, type Ref } from "vue";
 
 const tokenSymbol = Symbol();
 
-export const provideToken = (app: App, token: Ref<string | undefined | null>) => {
-	app.provide(tokenSymbol, token);
-};
-
 /**
  * Use token.
- * @returns { token: Ref<string | undefined | null> }
+ * @returns { token: Ref<string> }
  */
-export const useToken = () => {
-	const token = inject<Ref<string | undefined | null>>(tokenSymbol);
-	if (!token) {
-		throw new Error("Token not provided");
+export function useToken() {
+	function provideToken(token: Ref<string> | string | null | undefined) {
+		if (!token) {
+			throw new Error("Token cannot be null or undefined");
+		}
+		provide(tokenSymbol, toRef(token));
 	}
-	return { token };
-};
+
+	const token = inject<Ref<string>>(tokenSymbol);
+
+	return { token, provideToken };
+}

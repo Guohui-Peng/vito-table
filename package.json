@@ -1,6 +1,6 @@
 {
 	"name": "vito-table",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "A Vue 3 component for displaying tables with sorting, filtering, and pagination.",
 	"type": "module",
 	"module": "./dist/index.js",
@@ -55,7 +55,7 @@
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.3.1",
 		"dayjs": "^1.11.10",
-		"element-plus": "^2.7.1",
+		"element-plus": "^2.7.2",
 		"lodash-es": "^4.17.21",
 		"sortablejs": "^1.15.2",
 		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
