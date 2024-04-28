@@ -1,4 +1,4 @@
-import { createFetch, type MaybeRefOrGetter } from "@vueuse/core";
+import { createFetch } from "@vueuse/core";
 import { toValue } from "vue";
 import type { Ref } from "vue";
 import { useApiServer } from "./api-server";

@@ -21,6 +21,8 @@ const messages: Record<string, any> = {
 
 export { VitoTableV2, VitoTable };
 
+export * from "@/utils/vt-fetch";
+
 /**
  * Options for creating VitoTable.
  */
