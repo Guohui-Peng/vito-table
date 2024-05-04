@@ -7,16 +7,16 @@ import { useApiFetch } from "./vt-fetch";
  * @returns 配置列
  */
 export function cacheSelectOptions(
-	columns: VtTable.Column<VtTable.ColumnDataType>[]
+	columns: VtTable.Column<VtTable.ColumnDataType>[],
+	access_token: string | undefined | null
 ): VtTable.Column<VtTable.ColumnDataType>[] {
-	const api_fetch = useApiFetch();
-	const apiFetch = api_fetch.apiFetch();
+	const { apiFetch } = useApiFetch();
 	columns.forEach((col) => {
 		if (col.dataType === "select") {
 			if (col.editoptions) {
 				const options = col.editoptions as VtTable.EditOption<"select">;
 				if (options.dataUrl && options.dataUrl.length > 0) {
-					apiFetch(options.dataUrl)
+					apiFetch(options.dataUrl, access_token)
 						.get()
 						.json()
 						.then((resp) => {

@@ -114,6 +114,10 @@ const props = defineProps({
 	canRefresh: {
 		type: Boolean,
 		default: true
+	},
+	acessToken: {
+		type: String,
+		default: ""
 	}
 });
 
@@ -129,7 +133,7 @@ const { t } = useI18n();
 // 	}
 // });
 
-const apiFetch = useApiFetch();
+const { apiFetch } = useApiFetch();
 
 // 表格数据，v-model绑定
 const data = computed({
@@ -364,7 +368,7 @@ const loadRemotePromise = (url, page_size, current_page, filters = null, sort = 
 
 	return new Promise((resolve, reject) => {
 		try {
-			apiFetch(url)
+			apiFetch(url, props.accessToken)
 				.post(postData)
 				.json()
 				.then((resp) => {
@@ -432,7 +436,7 @@ async function deleteData(rowIndex, rowData) {
 			}
 			try {
 				loading.value = true;
-				apiFetch(props.editUrl)
+				apiFetch(props.editUrl, props.accessToken)
 					.post({
 						data: rowData,
 						operation: "del"
@@ -569,7 +573,7 @@ function onDelete() {
 				try {
 					const ids = selectedRows.map((row) => row.Id).join(",");
 					loading.value = true;
-					apiFetch(props.editUrl)
+					apiFetch(props.editUrl, props.accessToken)
 						.post({
 							data: null,
 							ids: ids,
@@ -643,7 +647,7 @@ function onModified(val) {
 	}
 	if (props.remote === true) {
 		loading.value = true;
-		apiFetch(props.editUrl)
+		apiFetch(props.editUrl, props.accessToken)
 			.post({
 				operation: "edit",
 				data: val
@@ -724,7 +728,9 @@ watch(
 	() => props.columns,
 	(newValue, oldValue) => {
 		customColumns.value = newValue;
-		cacheSelectOptions(customColumns.value);
+		if (props.remote) {
+			cacheSelectOptions(customColumns.value);
+		}
 	},
 	{ immediate: true }
 );

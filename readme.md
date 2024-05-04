@@ -65,14 +65,12 @@ Vito Table 提供了远程数据获取功能，通过设置 `remote-data` 属性
 
 ```html
 <script lang="ts" setup>
-	import {(VitoTable, useApiFetch)} from "vito-table";
-	const {(setApiServer, setToken)} =useApiFetch();
-	setApiServer("https://api.example.com");    // 设置 API Server 地址
-	setToken("your-access-token");  // 设置 Access Token，根据需要可以使用 watch 监听 token 变化后更新 token
+	import { useToken } from "...";
+    const { token } = useToken(); // 获取 Access Token
 </script>
 
 <template>
-	<vito-table :remote="true" :url="remoteApi" :edit-url="editUrl" />
+	<vito-table :remote="true" :url="remoteApi" :edit-url="editUrl" :access-token="token" />
 </template>
 ```
 

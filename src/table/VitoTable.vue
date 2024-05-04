@@ -66,8 +66,7 @@ const props = withDefaults(
 		 * 是否设计模式。设计模式不允许编辑数据。
 		 */
 		designMode?: boolean;
-		apiServer?: string;
-		token?: string;
+		accessToken?: string;
 		canAdd?: boolean;
 		canEdit?: boolean;
 		canDelete?: boolean;
@@ -113,8 +112,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const api_fetch = useApiFetch();
-const apiFetch = api_fetch.apiFetch();
+const { apiFetch } = useApiFetch();
 
 // 表格数据，v-model绑定
 const data = computed({
@@ -367,7 +365,7 @@ async function deleteData(rowIndex: number, rowData: Object) {
 				// 	action: "delete"
 				// });
 				loading.value = true;
-				apiFetch<Result<any>>(props.editUrl)
+				apiFetch<Result<any>>(props.editUrl, props.accessToken)
 					.post({
 						data: rowData,
 						operation: "del"
@@ -429,7 +427,7 @@ const loadRemotePromise = (
 
 	return new Promise((resolve, reject) => {
 		try {
-			apiFetch<GridResult<any>>(url)
+			apiFetch<GridResult<any>>(url, props.accessToken)
 				.post(postData)
 				.json()
 				.then((resp) => {
@@ -521,7 +519,7 @@ function onBatchDelete() {
 					if (props.editUrl) {
 						const ids = selectedRows.map((row: any) => row.Id).join(",");
 						loading.value = true;
-						apiFetch(props.editUrl)
+						apiFetch(props.editUrl, props.accessToken)
 							.post({
 								data: null,
 								ids: ids,
@@ -693,7 +691,7 @@ function onModified(val: any) {
 		// 远程数据
 		if (props.editUrl) {
 			loading.value = true;
-			apiFetch<Result<any>>(props.editUrl)
+			apiFetch<Result<any>>(props.editUrl, props.accessToken)
 				.post({
 					operation: operation.value,
 					data: val
@@ -854,7 +852,9 @@ watch(
 		// console.log("columns", newValue);
 		if (newValue) {
 			customColumns.value = newValue;
-			cacheSelectOptions(customColumns.value);
+			if (props.remote) {
+				cacheSelectOptions(customColumns.value, props.accessToken);
+			}
 		}
 	},
 	{ immediate: true }
