@@ -192,8 +192,8 @@ watch(
 		</div>
 		<div class="flex items-center text-sm">
 			<el-radio-group v-model="groupOperation" class="ml-4">
-				<el-radio label="and">{{ t("Table.And") }}</el-radio>
-				<el-radio label="or">{{ t("Table.Or") }}</el-radio>
+				<el-radio value="and">{{ t("Table.And") }}</el-radio>
+				<el-radio value="or">{{ t("Table.Or") }}</el-radio>
 			</el-radio-group>
 		</div>
 		<div class="flex">
