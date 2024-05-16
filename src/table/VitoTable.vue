@@ -77,7 +77,7 @@ const props = withDefaults(
 		modelValue: () => [],
 		exportFilename: "export-file",
 		pageSize: 20,
-		pageSizes: () => [20, 50, 100, 200, 300, 400],
+		pageSizes: () => [20, 30, 50, 100, 200, 300, 400],
 		remote: false,
 		showPagination: true,
 		showRowEditButton: true,
