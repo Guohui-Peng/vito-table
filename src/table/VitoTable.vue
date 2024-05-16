@@ -306,8 +306,23 @@ const jqFilterString = computed<VT.Filter | undefined>(() => {
 	}
 });
 
+const translatedColumns = computed<VT.Column<VT.ColumnDataType>[]>({
+	get() {
+		return props.columnTitleI18n && customColumns.value
+			? customColumns.value.map((col) =>
+					Object.assign({}, { id: col.key }, col, { title: t(col.title ?? col.key) })
+			  )
+			: customColumns.value;
+	},
+	set(val) {
+		if (val) {
+			customColumns.value = val.map((col) => Object.assign({}, col));
+		}
+	}
+});
+
 const tableColumns = computed(() => {
-	return customColumns.value
+	return translatedColumns.value
 		.filter((col) => col.hidden !== true)
 		?.map((col) => Object.assign({}, { id: col.key }, col));
 });
@@ -912,19 +927,11 @@ watch(
 	{ immediate: true }
 );
 watch(
-	[() => props.columns, () => locale.value],
-	([newValue, localeValue], [oldValue, oldLocaleValue]) => {
-		// console.log("columns", newValue);
+	() => props.columns,
+	(newValue, oldValue) => {
 		if (newValue) {
 			customColumns.value = newValue;
-			if (props.remote) {
-				cacheSelectOptions(customColumns.value, props.accessToken);
-			}
-		}
-		if (localeValue && props.columnTitleI18n) {
-			customColumns.value.forEach((col) => {
-				col.title = t(col.title);
-			});
+			cacheSelectOptions(customColumns.value, props.accessToken);
 		}
 	},
 	{ immediate: true }
@@ -1106,11 +1113,15 @@ onMounted(() => {
 		<VtTableDialog
 			v-model:data="form"
 			v-model:show="dialogFormVisible"
-			:columns="columns"
+			:columns="translatedColumns"
 			:operation="operation"
 			@confirm="onModified"
 		/>
-		<VtColumnSelector v-model="customColumns" v-model:show="dialogColumnSelector" />
+		<VtColumnSelector
+			v-model="customColumns"
+			v-model:show="dialogColumnSelector"
+			:column-title-i18n="columnTitleI18n"
+		/>
 		<VtExportDialog
 			:columns="tableColumns"
 			:data="exportData"

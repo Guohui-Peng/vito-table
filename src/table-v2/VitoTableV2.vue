@@ -127,7 +127,7 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue", "add", "edit", "delete", "operation"]);
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 // const apiServer = computed(() => {
 // 	if (props.apiServer) {
@@ -986,7 +986,11 @@ function sortRemoteData(prop, order) {
 			:operation="operation"
 			@confirm="onModified"
 		/>
-		<vt-column-selector v-model="customColumns" v-model:show="dialogColumnSelector" />
+		<VtColumnSelector
+			v-model="customColumns"
+			v-model:show="dialogColumnSelector"
+			:column-title-i18n="columnTitleI18n"
+		/>
 		<vt-export-dialog
 			:columns="tableColumns"
 			:data="exportData"
