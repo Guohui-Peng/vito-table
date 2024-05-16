@@ -1,18 +1,31 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import VtTransfer from "./VtTransfer.vue";
 
-const props = defineProps({
-	show: {
-		type: Boolean,
-		default: false
-	},
-	modelValue: {
-		type: Array,
-		default: () => []
+import type { VtTable as VT } from "@/types";
+
+interface ColumnSelector {
+	id: string;
+	key: string;
+	label: string;
+}
+
+const props = withDefaults(
+	defineProps<{
+		show: boolean;
+		modelValue: VT.Column<VT.ColumnDataType>[];
+		/**
+		 * 列标题是否使用多语言 I18n 控件，默认为 true
+		 */
+		columnTitleI18n?: boolean;
+	}>(),
+	{
+		modelValue: () => [],
+		show: false,
+		columnTitleI18n: true
 	}
-});
+);
 
 const emit = defineEmits(["update:modelValue", "update:show"]);
 
@@ -36,22 +49,23 @@ const dialogFormVisible = computed({
 	}
 });
 
-const data = computed({
+const data = computed<ColumnSelector[]>({
 	get() {
 		return columns.value.map((item) => {
 			return {
 				id: item.key,
 				key: item.key,
-				label: item.title
+				label: props.columnTitleI18n ? t(item.title) : item.title
 			};
 		});
 	},
 	set(newValue) {
 		if (newValue && newValue.length > 0) {
-			const cols = [];
+			const cols: any[] = [];
 			newValue.forEach((item) => {
-				if (columns.value.includes(item.key)) {
-					cols.push(columns.value[item.key]);
+				const colIndex = columns.value.findIndex((f) => f.key === item.key);
+				if (colIndex > -1) {
+					cols.push(columns.value[colIndex]);
 				}
 			});
 			columns.value = cols;
@@ -59,8 +73,8 @@ const data = computed({
 	}
 });
 
-const hideColumns = (value) => {
-	const hiddenCols = [];
+const hideColumns = (value: VT.Column<VT.ColumnDataType>[]) => {
+	const hiddenCols: string[] = [];
 	if (value.length > 0) {
 		const cols = value.filter((f) => f.hidden === true);
 		cols.forEach((col) => {
@@ -70,7 +84,7 @@ const hideColumns = (value) => {
 	return hiddenCols;
 };
 
-const value = ref([]);
+const value = ref<any[]>([]);
 
 function onCancel() {
 	dialogFormVisible.value = false;
@@ -111,7 +125,7 @@ watch(
 		:title="t('Table.ColumnSelector')"
 		:width="750"
 	>
-		<vt-transfer
+		<VtTransfer
 			v-model="value"
 			:titles="[t('Table.DisplayColumns'), t('Table.HiddenColumns')]"
 			v-model:data="data"

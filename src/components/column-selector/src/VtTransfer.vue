@@ -9,14 +9,9 @@ const props = withDefaults(
 	defineProps<{
 		data: TransferDataItem[];
 		modelValue: Array<string | number>;
-			/**
-		 * 列标题是否使用多语言 I18n 控件，默认为 true
-		 */
-		columnTitleI18n?: boolean;
 	}>(),
 	{
-		data: () => [],
-		columnTitleI18n: true
+		data: () => []
 	}
 );
 
