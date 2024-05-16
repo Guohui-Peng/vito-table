@@ -118,6 +118,10 @@ const props = defineProps({
 	acessToken: {
 		type: String,
 		default: ""
+	},
+	columnTitleI18n: {
+		type: Boolean,
+		default: true
 	}
 });
 
@@ -317,10 +321,12 @@ const tableColumns = computed(() => {
 		if (!col.dataType) {
 			col.dataType = "text";
 		}
-		col.headerCellRenderer = (props) => {
+		col.headerCellRenderer = (item) => {
 			return (
 				<div class="flex items-center justify-center">
-					<span class="mr-2 text-sm">{props.column.title}</span>
+					<span class="mr-2 text-sm">
+						{props.columnTitleI18n ? t(item.column.title) : item.column.title}
+					</span>
 					<VtHeaderFilter column={col} onFiltered={onFiltered} />
 				</div>
 			);

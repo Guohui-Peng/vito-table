@@ -50,7 +50,47 @@ npm install vito-table
     	import { VitoTable } from "vito-table";
 
     	const data = [...]; // 数据源
-    	const columns = [...]; // 列配置
+    	const columns = ref<[
+    	       {
+    	          key: "ID",
+    	          dataKey: "ID",
+    	          dataType: "text", // 列类型
+    	          title: "ID",
+    	          width: 80,    // 列宽度
+    	          search: true,     // 显示搜索
+    	          editable: false,  // 禁止编辑
+    	          editoptions: {
+    	              disabled: true
+    	          }
+    	          hidden: true  // 默认隐藏
+    	      },
+    	      {
+    	          key: "Language",
+    	          dataKey: "Language",
+    	          dataType: "select",   // 下拉框
+    	          title: "Language",
+    	          width: 110,
+    	          search: true,
+    	          editable: true,
+    	          editoptions: {
+    	              disabled: true,   // 编辑时不允许修改，新增时可以
+    	              options: [
+    	                  { label: "English", value: "en" },
+    	                  { label: "简体中文", value: "zh-CN" }
+    	              ] // 下拉选项
+    	          }
+    	      },
+    	      {
+    	          key: "Value",
+    	          dataKey: "Value",
+    	          dataType: "text",
+    	          title: "Value",   // 列名称
+    	          minWidth: 150,    // 最小宽度，当未设置width时，将填充剩余空间
+    	          editable: true,   // 允许编辑
+    	          search: true,     // 允许搜索
+    	          sortable: true    // 允许排序
+    	      }
+    	   ]; // 列配置
     </script>
     <template>
     	<div>
@@ -66,7 +106,7 @@ Vito Table 提供了远程数据获取功能，通过设置 `remote-data` 属性
 ```html
 <script lang="ts" setup>
 	import { useToken } from "...";
-    const { token } = useToken(); // 获取 Access Token
+	const { token } = useToken(); // 获取 Access Token
 </script>
 
 <template>

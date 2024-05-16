@@ -20,16 +20,49 @@ defineOptions({
 
 const props = withDefaults(
 	defineProps<{
+		/**
+		 * 表格数据，用于本地数据
+		 */
 		modelValue?: any[];
+		/**
+		 * 表格列定义
+		 */
 		columns: VT.Column<VT.ColumnDataType>[];
+		/**
+		 * 定义下拉可切换的每页行数列表
+		 */
 		pageSizes?: number[];
+		/**
+		 * 每页显示行数
+		 */
 		pageSize?: number;
+		/**
+		 * 远程数据
+		 */
 		remote?: boolean;
+		/**
+		 * 数据获取 URL，POST 方式
+		 */
 		url?: string;
+		/**
+		 * 编辑 URL，POST 方式
+		 */
 		editUrl?: string;
+		/**
+		 * 显示分页组件
+		 */
 		showPagination?: boolean;
+		/**
+		 * 显示行内编辑按钮
+		 */
 		showRowEditButton?: boolean;
+		/**
+		 * 显示行内删除按钮
+		 */
 		showRowDeleteButton?: boolean;
+		/**
+		 * 显示操作列
+		 */
 		showOperationColumn?: boolean;
 		/**
 		 * 选择显示的列
@@ -59,19 +92,50 @@ const props = withDefaults(
 		 * 导出数据是否显示底部数据
 		 */
 		exportFooter?: boolean;
+		/**
+		 * 导出自定义底部
+		 */
 		exportCustomFooter?: any[];
+		/**
+		 * 导出底部公式
+		 */
 		exportFormulaFooter?: any[];
+		/**
+		 * 导出时默认文件名
+		 */
 		exportFilename?: string;
 		/**
 		 * 是否设计模式。设计模式不允许编辑数据。
 		 */
 		designMode?: boolean;
+		/**
+		 * Access Token，用于远程访问API资源
+		 */
 		accessToken?: string;
+		/**
+		 * 允许新增
+		 */
 		canAdd?: boolean;
+		/**
+		 * 允许编辑
+		 */
 		canEdit?: boolean;
+		/**
+		 * 允许删除
+		 */
 		canDelete?: boolean;
+		/**
+		 * 允许导出
+		 */
 		canExport?: boolean;
+		/**
+		 * 允许更新数据，用于远程数据
+		 */
 		canRefresh?: boolean;
+		/**
+		 * 列标题是否使用多语言 I18n 控件，默认为 true
+		 */
+		columnTitleI18n?: boolean;
 	}>(),
 	{
 		modelValue: () => [],
@@ -97,7 +161,8 @@ const props = withDefaults(
 		canEdit: false,
 		canDelete: false,
 		canExport: false,
-		canRefresh: true
+		canRefresh: true,
+		columnTitleI18n: true
 	}
 );
 
@@ -946,7 +1011,7 @@ onMounted(() => {
 				v-for="col in tableColumns"
 				:key="col.key"
 				:prop="col.dataKey"
-				:label="col.title"
+				:label="columnTitleI18n ? t(col.title) : col.title"
 				:width="col.width"
 				:min-width="col.minWidth"
 				v-bind="col.attrs"
