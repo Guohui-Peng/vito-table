@@ -904,6 +904,16 @@ function onSortChange({ column, prop, order }: VT.SortChangeParams) {
 }
 // #endregion
 
+watch(
+	() => props.pageSize,
+	(value) => {
+		if (value) {
+			pageRows.value = value;
+		}
+	},
+	{ immediate: true }
+);
+
 // 监听当前页码和每页显示条数的变化，变化后从远程加载数据
 watch(
 	[currentPage, pageRows],
