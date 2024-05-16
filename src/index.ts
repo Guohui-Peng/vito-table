@@ -7,11 +7,11 @@ import { createI18n } from "vue-i18n";
 import type { I18n } from "vue-i18n";
 import type { App } from "vue";
 
-import en from "@/locales/lang/en.json";
-import zhCn from "@/locales/lang/zh-cn.json";
+import en from "./locales/lang/en.json";
+import zhCn from "./locales/lang/zh-cn.json";
 
-import VitoTable from "@/table";
-import VitoTableV2 from "@/table-v2";
+import VitoTable from "./table";
+import VitoTableV2 from "./table-v2";
 
 const messages: Record<string, any> = {
 	en: en,
@@ -21,7 +21,7 @@ const messages: Record<string, any> = {
 
 export { VitoTableV2, VitoTable };
 
-export * from "@/utils/vt-fetch";
+export * from "./utils/vt-fetch";
 
 /**
  * Options for creating VitoTable.
