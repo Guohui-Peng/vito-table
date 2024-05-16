@@ -175,7 +175,7 @@ const emit = defineEmits<{
 	operation: [row: any];
 }>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const { apiFetch } = useApiFetch();
 
@@ -912,14 +912,19 @@ watch(
 	{ immediate: true }
 );
 watch(
-	() => props.columns,
-	(newValue, oldValue) => {
+	[() => props.columns, () => locale.value],
+	([newValue, localeValue], [oldValue, oldLocaleValue]) => {
 		// console.log("columns", newValue);
 		if (newValue) {
 			customColumns.value = newValue;
 			if (props.remote) {
 				cacheSelectOptions(customColumns.value, props.accessToken);
 			}
+		}
+		if (localeValue && props.columnTitleI18n) {
+			customColumns.value.forEach((col) => {
+				col.title = t(col.title);
+			});
 		}
 	},
 	{ immediate: true }
@@ -1011,7 +1016,7 @@ onMounted(() => {
 				v-for="col in tableColumns"
 				:key="col.key"
 				:prop="col.dataKey"
-				:label="columnTitleI18n ? t(col.title) : col.title"
+				:label="col.title"
 				:width="col.width"
 				:min-width="col.minWidth"
 				v-bind="col.attrs"

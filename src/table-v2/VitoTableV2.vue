@@ -731,11 +731,20 @@ watch(
 );
 
 watch(
-	() => props.columns,
-	(newValue, oldValue) => {
-		customColumns.value = newValue;
-		if (props.remote) {
-			cacheSelectOptions(customColumns.value);
+	[() => props.columns, () => locale.value],
+	([newValue, localeValue], [oldValue, oldLocaleValue]) => {
+		// console.log("columns", newValue);
+		if (newValue) {
+			customColumns.value = newValue;
+			if (props.remote) {
+				cacheSelectOptions(customColumns.value, props.accessToken);
+			}
+		}
+		if (localeValue && props.columnTitleI18n) {
+			// 更新多语言
+			customColumns.value.forEach((col) => {
+				col.title = t(col.title);
+			});
 		}
 	},
 	{ immediate: true }
