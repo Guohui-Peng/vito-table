@@ -420,18 +420,17 @@ function refreshRemoteData() {
 	);
 }
 
-async function deleteData(rowIndex, rowData) {
+function deleteData(rowIndex, rowData) {
 	if (props.designMode === true) {
 		ElMessage.warning(t("Table.DesignMode"));
 		return;
 	}
-	try {
-		await ElMessageBox.confirm(t("Table.AreYouSureDelete"), t("Table.Warning"), {
-			confirmButtonText: t("Table.OK"),
-			cancelButtonText: t("Table.Cancel"),
-			type: "warning"
-		});
-
+	//try {
+	ElMessageBox.confirm(t("Table.AreYouSureDelete"), t("Table.Warning"), {
+		confirmButtonText: t("Table.OK"),
+		cancelButtonText: t("Table.Cancel"),
+		type: "warning"
+	}).then(() => {
 		// console.log("Delete", rowIndex, rowData);
 		if (props.remote) {
 			// remoteData.value.splice(rowIndex, 1);
@@ -467,9 +466,16 @@ async function deleteData(rowIndex, rowData) {
 			// emit("update:modelValue", localData.value);
 		}
 		emit("delete", rowIndex, rowData);
-	} catch (err) {
-		console.error(err);
-	}
+	});
+	// .catch(() => {
+	// 	ElMessage({
+	// 		type: "info",
+	// 		message: "Delete canceled"
+	// 	});
+	// });
+	// } catch (err) {
+	// 	console.error(err);
+	// }
 }
 
 /**

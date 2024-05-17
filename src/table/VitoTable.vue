@@ -260,7 +260,7 @@ const total = computed<number>(() =>
 	props.remote ? remoteTotal.value : filteredData.value.length
 );
 // 已选择的数据
-const selectedItems = computed(() => data.value.filter((row) => row.checked));
+const selectedItems = ref<any[]>([]);
 
 const autoHeight = computed<number>(() => {
 	if (props.height) {
@@ -423,14 +423,13 @@ function refreshLocalData() {
 	}
 }
 
-async function deleteData(rowIndex: number, rowData: Object) {
-	try {
-		await ElMessageBox.confirm(t("Table.AreYouSureDelete"), t("Table.Warning"), {
-			confirmButtonText: t("Table.OK"),
-			cancelButtonText: t("Table.Cancel"),
-			type: "warning"
-		});
-
+function deleteData(rowIndex: number, rowData: Object) {
+	// try {
+	ElMessageBox.confirm(t("Table.AreYouSureDelete"), t("Table.Warning"), {
+		confirmButtonText: t("Table.OK"),
+		cancelButtonText: t("Table.Cancel"),
+		type: "warning"
+	}).then(() => {
 		// console.log("Delete", rowIndex, rowData);
 		if (props.remote) {
 			// remoteData.value.splice(rowIndex, 1);
@@ -472,9 +471,16 @@ async function deleteData(rowIndex: number, rowData: Object) {
 			// emit("update:modelValue", localData.value);
 		}
 		emit("delete", rowIndex, rowData);
-	} catch (err) {
-		console.error(err);
-	}
+	});
+	// .catch(() => {
+	// 	ElMessage({
+	// 		type: "info",
+	// 		message: "Delete canceled"
+	// 	});
+	// });
+	// } catch (err) {
+	// 	console.error(err);
+	// }
 }
 
 function onFiltered(field: string, val: any) {
@@ -811,10 +817,7 @@ function onModified(val: any) {
 }
 
 function onSelectionChange(selection: any[]) {
-	// const selectedRows = tableRef.value.getSelectionRows();
-	currentPageData.value.forEach((row) => {
-		row.checked = selection.includes(row);
-	});
+	selectedItems.value = selection;
 }
 
 /**
