@@ -11,7 +11,7 @@ import en from "./locales/lang/en.json";
 import zhCn from "./locales/lang/zh-cn.json";
 
 import VitoTable from "./table";
-import VitoTableV2 from "./table-v2";
+// import VitoTableV2 from "./table-v2";
 
 const messages: Record<string, any> = {
 	en: en,
@@ -19,7 +19,7 @@ const messages: Record<string, any> = {
 	"zh-CN": zhCn
 };
 
-export { VitoTableV2, VitoTable };
+export { VitoTable };
 
 export * from "./utils/vt-fetch";
 
