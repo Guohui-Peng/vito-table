@@ -167,7 +167,7 @@ const props = withDefaults(
 );
 
 //const emit = defineEmits(["update:modelValue", "add", "edit", "delete", "operation"]);
-// type operationType = "add" | "edit" | "delete" | "batch-delete";
+type operationType = "add" | "edit" | "delete" | "batch-delete";
 
 const emit = defineEmits<{
 	"update:modelValue": [val: any[]];
@@ -205,7 +205,7 @@ const dialogFormVisible = ref<boolean>(false); // 是否显示编辑对话框
 const dialogColumnSelector = ref<boolean>(false); // 是否显示列选择对话框
 const customColumns = ref<VT.Column<VT.ColumnDataType>[]>([]); // 自定义的列，根据用户选择显示列及顺序
 const cusotmFooterData = ref<Record<string, any>>({}); // 底部数据
-const operation = ref("edit"); // 操作类型，用于区分是编辑还是新增，新增为"add"
+const operation = ref<operationType>("edit"); // 操作类型，用于区分是编辑还是新增，新增为"add"
 const customOrder = ref<VT.Sort | undefined>(undefined); // 自定义排序
 
 // 表单显示用的数据
@@ -800,6 +800,18 @@ function onModified(val: any) {
 						ElMessage.error(r.data);
 					}
 					refreshRemoteData();
+				})
+				.then(() => {
+					switch (operation.value) {
+						case "add":
+							emit("add", val);
+							break;
+						case "edit":
+							emit("edit", val);
+							break;
+						default:
+							break;
+					}
 				})
 				.then(() => {
 					loading.value = false;
