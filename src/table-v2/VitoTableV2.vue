@@ -555,7 +555,7 @@ function onAdd() {
 	form.value = _emptyRow();
 	operation.value = "add";
 	dialogFormVisible.value = true;
-	// emit("add");
+	emit("add");
 	// emit("operation", "add", {});
 }
 
@@ -675,6 +675,7 @@ function onModified(val) {
 				refreshRemoteData();
 			})
 			.then(() => {
+				emit("edit", val);
 				loading.value = false;
 			});
 	} else {
@@ -682,10 +683,12 @@ function onModified(val) {
 		switch (operation.value) {
 			case "add":
 				data.value.push(val);
+				emit("add", val);
 				break;
 			case "edit":
 				const index = data.value.indexOf(form.value);
 				data.value.splice(index, 1, val);
+				emit("edit", form.value);
 				break;
 			default:
 				ElMessage.error("Unsupport operation!");

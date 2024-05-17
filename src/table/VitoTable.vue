@@ -167,15 +167,17 @@ const props = withDefaults(
 );
 
 //const emit = defineEmits(["update:modelValue", "add", "edit", "delete", "operation"]);
+// type operationType = "add" | "edit" | "delete" | "batch-delete";
+
 const emit = defineEmits<{
 	"update:modelValue": [val: any[]];
 	add: [row: any];
 	edit: [row: any];
 	delete: [index: number, row: any];
-	operation: [row: any];
+	batchDelete: [ids: string[]];
 }>();
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const { apiFetch } = useApiFetch();
 
@@ -471,6 +473,7 @@ function deleteData(rowIndex: number, rowData: Object) {
 			// emit("update:modelValue", localData.value);
 		}
 		emit("delete", rowIndex, rowData);
+		// emit("operation", "delete", rowData);
 	});
 	// .catch(() => {
 	// 	ElMessage({
@@ -603,7 +606,8 @@ function onBatchDelete() {
 				// 远程删除数据
 				try {
 					if (props.editUrl) {
-						const ids = selectedRows.map((row: any) => row.Id).join(",");
+						const selectedIds = selectedRows.map((row: any) => row.Id);
+						const ids = selectedIds.join(",");
 						loading.value = true;
 						apiFetch(props.editUrl, props.accessToken)
 							.post({
@@ -624,6 +628,9 @@ function onBatchDelete() {
 								loading.value = false;
 								// 重新加载数据
 								refreshRemoteData();
+							})
+							.then(() => {
+								emit("batchDelete", selectedIds);
 							});
 					} else {
 						ElMessage.error("editUrl is not defined");
@@ -634,7 +641,9 @@ function onBatchDelete() {
 			} else {
 				selectedRows.forEach((row: any) => {
 					const index = data.value.indexOf(row);
-					data.value.splice(index, 1);
+
+					emit("delete", index, row);
+					// emit("operation", "delete", row);
 				});
 				// localData.value = currentPageData.value; // Refresh current page data
 				refreshLocalData();
@@ -803,10 +812,14 @@ function onModified(val: any) {
 		switch (operation.value) {
 			case "add":
 				data.value.push(val);
+				emit("add", val);
+				// emit("operation", "add", val);
 				break;
 			case "edit":
 				const index = data.value.indexOf(form.value);
 				data.value.splice(index, 1, val);
+				emit("edit", val);
+				// emit("operation", "edit", val);
 				break;
 			default:
 				ElMessage.error("Unsupport operation!");
