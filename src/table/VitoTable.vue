@@ -725,7 +725,7 @@ function _emptyRow() {
 	props.columns.forEach((col) => {
 		if (col.dataType === "select") {
 			if (col.editoptions) {
-				if (!col.editoptions.defaultValue) {
+				if (col.editoptions.defaultValue !== undefined) {
 					row[col.dataKey] = col.editoptions.defaultValue;
 				} else {
 					const s_col = col as VT.Column<"select">;
@@ -745,7 +745,9 @@ function _emptyRow() {
 			}
 			//row[col.dataKey] = col.editoptions?.defaultValue || "";
 		} else {
-			row[col.dataKey] = col.editoptions?.defaultValue || null;
+			if (col.editoptions && col.editoptions.defaultValue !== undefined) {
+				row[col.dataKey] = col.editoptions?.defaultValue;
+			}
 		}
 	});
 	return row;

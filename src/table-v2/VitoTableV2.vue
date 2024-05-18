@@ -533,14 +533,29 @@ function _emptyRow() {
 	props.columns.forEach((col) => {
 		if (col.dataType === "select") {
 			if (col.editoptions) {
-				row[col.dataKey] =
-					col.editoptions.defaultValue ?? col.editoptions.value[0]?.value ?? "";
+				if (col.editoptions.defaultValue !== undefined) {
+					row[col.dataKey] = col.editoptions.defaultValue;
+				} else {
+					const s_col = col;
+					if (
+						s_col &&
+						s_col.editoptions &&
+						s_col.editoptions.options &&
+						s_col.editoptions.options.length > 0
+					) {
+						row[col.dataKey] = s_col.editoptions.options[0].value;
+					} else {
+						row[col.dataKey] = "";
+					}
+				}
 			} else {
 				row[col.dataKey] = "";
 			}
 			//row[col.dataKey] = col.editoptions?.defaultValue || "";
 		} else {
-			row[col.dataKey] = col.editoptions?.defaultValue || null;
+			if (col.editoptions && col.editoptions.defaultValue !== undefined) {
+				row[col.dataKey] = col.editoptions?.defaultValue;
+			}
 		}
 	});
 	return row;
