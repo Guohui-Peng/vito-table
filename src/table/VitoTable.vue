@@ -153,7 +153,7 @@ const props = withDefaults(
 		/**
 		 * 自定义修改事件
 		 */
-		 customEditEvent?: boolean;
+		customEditEvent?: boolean;
 	}>(),
 	{
 		modelValue: () => [],
@@ -800,7 +800,7 @@ const onEdit = ({ row }: VT.EditRowParams) => {
 		return;
 	}
 	form.value = row;
-	
+
 	if (props.customEditEvent === true) {
 		// 自定义新增事件
 		emit("customEdit", row);
@@ -1040,21 +1040,17 @@ watch(
 	{ immediate: true }
 );
 watch(
-	[() => props.remote, () => props.url],
-	([new_remote, new_url], [old_remote, old_url]) => {
+	[() => props.remote, () => props.url, () => props.searchPostData],
+	([new_remote, new_url, search_data], [old_remote, old_url, old_search_data]) => {
 		if (new_remote === true) {
 			refreshRemoteData();
-		} else {
-			refreshLocalData();
 		}
 	},
 	{ immediate: true }
 );
 
 onMounted(() => {
-	if (props.remote === true) {
-		refreshRemoteData();
-	} else {
+	if (props.remote !== true) {
 		refreshLocalData();
 	}
 });

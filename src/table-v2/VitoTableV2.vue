@@ -796,12 +796,20 @@ watch(
 	{ immediate: true }
 );
 
+watch(
+	[() => props.remote, () => props.url, () => props.searchPostData],
+	([new_remote, new_url, search_data], [old_remote, old_url, old_search_data]) => {
+		if (new_remote === true) {
+			refreshRemoteData();
+		}
+	},
+	{ immediate: true }
+);
+
 onMounted(() => {
 	dayjs.extend(localizedFormat);
 
-	if (props.remote === true) {
-		refreshRemoteData();
-	} else {
+	if (props.remote !== true) {
 		refreshLocalData();
 	}
 });
