@@ -150,6 +150,10 @@ const props = withDefaults(
 		 * 自定义新增事件
 		 */
 		customAddEvent?: boolean;
+		/**
+		 * 自定义修改事件
+		 */
+		 customEditEvent?: boolean;
 	}>(),
 	{
 		modelValue: () => [],
@@ -178,7 +182,8 @@ const props = withDefaults(
 		canRefresh: true,
 		columnTitleI18n: true,
 		operationColumnWidth: 120,
-		customAddEvent: false
+		customAddEvent: false,
+		customEditEvent: false
 	}
 );
 
@@ -188,6 +193,7 @@ type operationType = "add" | "edit" | "delete" | "batch-delete";
 const emit = defineEmits<{
 	"update:modelValue": [val: any[]];
 	customAdd: [row: any];
+	customEdit: [row: any];
 	add: [row: any];
 	edit: [row: any];
 	delete: [index: number, row: any];
@@ -794,9 +800,15 @@ const onEdit = ({ row }: VT.EditRowParams) => {
 		return;
 	}
 	form.value = row;
-	// console.log("form", form.value);
-	operation.value = "edit";
-	dialogFormVisible.value = true;
+	
+	if (props.customEditEvent === true) {
+		// 自定义新增事件
+		emit("customEdit", row);
+	} else {
+		// 调用默认新增
+		operation.value = "edit";
+		dialogFormVisible.value = true;
+	}
 };
 
 /**

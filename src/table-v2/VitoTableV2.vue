@@ -137,6 +137,10 @@ const props = defineProps({
 	customAddEvent: {
 		type: Boolean,
 		default: false
+	},
+	customEditEvent: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -147,7 +151,8 @@ const emit = defineEmits([
 	"delete",
 	"operation",
 	"onFetchError",
-	"customAdd"
+	"customAdd",
+	"customEdit"
 ]);
 
 const { t, locale } = useI18n();
@@ -256,8 +261,12 @@ operationColumns.value.push({
 		const onEdit = () => {
 			// console.log("Edit", rowIndex, rowData);
 			form.value = rowData;
-			operation.value = "edit";
-			dialogFormVisible.value = true;
+			if (props.customEditEvent === true) {
+				emit("customEdit", rowData);
+			} else {
+				operation.value = "edit";
+				dialogFormVisible.value = true;
+			}
 		};
 		const onDelete = () => {
 			deleteData(rowIndex, rowData);
