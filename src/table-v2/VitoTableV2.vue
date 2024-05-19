@@ -133,6 +133,10 @@ const props = defineProps({
 		type: [String, Number],
 		required: false,
 		default: 120
+	},
+	customAddEvent: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -142,7 +146,8 @@ const emit = defineEmits([
 	"edit",
 	"delete",
 	"operation",
-	"onFetchError"
+	"onFetchError",
+	"customAdd"
 ]);
 
 const { t, locale } = useI18n();
@@ -567,12 +572,15 @@ function onAdd() {
 		ElMessage.warning(t("Table.DesignMode"));
 		return;
 	}
-
 	form.value = _emptyRow();
-	operation.value = "add";
-	dialogFormVisible.value = true;
-	emit("add");
-	// emit("operation", "add", {});
+	if (props.customAddEvent === true) {
+		// 自定义新增事件
+		emit("customAdd", form.value);
+	} else {
+		// 调用默认新增
+		operation.value = "add";
+		dialogFormVisible.value = true;
+	}
 }
 
 /**
