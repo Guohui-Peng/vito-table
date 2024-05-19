@@ -16,9 +16,11 @@
 
         -   `pageSize` 为每页显示的记录数。
 
-        -   ~~`sort` 为排序字段，格式为 `字段名:asc` 或 `字段名:desc` 。~~
-
         -   `filters` 为筛选条件，由 table 筛选后自动生成 。
+
+1. `editPostData` 为编辑时增加到请求参数中的数据。
+
+1. `searchPostData` 为查询时增加到请求参数中的数据。
 
 1.  `editUrl` 为远程修改地址。远程地址应支持 post 方式，且使用 json 格式。并根据以下参数实现相关功能。
 
@@ -91,6 +93,9 @@
     ```
 
 1.  `exportFilename` 为导出文件名，默认为 `export-file` 。
+
+
+1. `columnTitleI18n` 为 true 时列标题默认使用翻译功能，为 false 关闭。
 
 
 ### 列定义

@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { Delete, CirclePlus, RefreshRight, Download, Coordinate } from "@element-plus/icons-vue";
+import { Delete, CirclePlus, RefreshRight, Download } from "@element-plus/icons-vue";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 import { VtHeaderFilter, filterRow, numberFormat, integerFormat } from "@/components/filters";
 import { VtCell, VtTableDialog, VtColumnSelector, VtExportDialog } from "@/components";
 
-import { useApiFetch, cacheSelectOptions } from "@/utils";
-
-import { ElMessage, ElMessageBox } from "element-plus";
-// import "element-plus/theme-chalk/src/message.scss";
+import { useApiFetch, useApiRemote, cacheSelectOptions } from "@/utils";
 
 import type { ElTable } from "element-plus";
 import type { VtTable as VT } from "@/types";
@@ -136,6 +134,14 @@ const props = withDefaults(
 		 * 列标题是否使用多语言 I18n 控件，默认为 true
 		 */
 		columnTitleI18n?: boolean;
+		/**
+		 * 查询时总是添加的条件
+		 */
+		searchPostData?: Record<string, any>;
+		/**
+		 * 编辑时总是添加的条件
+		 */
+		editPostData?: Record<string, any>;
 	}>(),
 	{
 		modelValue: () => [],
@@ -189,7 +195,11 @@ const { t } = useI18n();
 function emitFetchError(ctx: { data: any; response: Response | null; error: any }) {
 	emit("onFetchError", ctx);
 }
+
+const token = computed<string>(() => props.accessToken ?? "");
+
 const { apiFetch } = useApiFetch(emitFetchError);
+const { loadRemotePromise } = useApiRemote(token);
 
 // 表格数据，v-model绑定
 const data = computed({
@@ -507,38 +517,6 @@ function onFiltered(field: string, val: any) {
 	// console.log(JSON.stringify(jqFilterString.value));
 }
 
-const loadRemotePromise = (
-	url: string,
-	page_size: number,
-	current_page: number,
-	filters: VT.Filter | undefined = undefined,
-	sort: VT.Sort | undefined = undefined
-): Promise<GridResult<any>> => {
-	const postData: VT.TableRequstParams = {
-		pageSize: page_size,
-		currentPage: current_page,
-		filters: filters ? JSON.stringify(filters) : undefined
-	};
-	if (sort && sort.order != null && sort.name != null) {
-		postData.sColumn = sort.name;
-		postData.sOrder = sort.order === "ascending" ? "asc" : "desc";
-	}
-
-	return new Promise((resolve, reject) => {
-		try {
-			apiFetch<GridResult<any>>(url, props.accessToken)
-				.post(postData)
-				.json()
-				.then((resp) => {
-					resolve(resp.data.value);
-				});
-		} catch (err) {
-			console.error(err);
-			reject(err);
-		}
-	});
-};
-
 /**
  * 从远程加载数据
  */
@@ -547,7 +525,8 @@ const loadRemoteData = (
 	page_size: number,
 	current_page: number,
 	filters: VT.Filter | undefined = undefined,
-	sort: VT.Sort | undefined = undefined
+	sort: VT.Sort | undefined = undefined,
+	ext_data: Record<string, any> | undefined | null
 ) => {
 	loading.value = true;
 	if (!url) {
@@ -557,7 +536,7 @@ const loadRemoteData = (
 		cusotmFooterData.value = [];
 		return;
 	}
-	loadRemotePromise(url, page_size, current_page, filters, sort)
+	loadRemotePromise(url, page_size, current_page, filters, sort, ext_data)
 		.then((data) => {
 			localData.value = data.rows ?? [];
 			remoteTotal.value = data.records ?? 0;
@@ -581,7 +560,8 @@ function refreshRemoteData() {
 		pageRows.value,
 		currentPage.value,
 		jqFilterString.value,
-		customOrder.value
+		customOrder.value,
+		props.searchPostData
 	);
 }
 
@@ -709,7 +689,14 @@ function generateExportData(range: VT.ExportRangeType) {
 		if (props.remote) {
 			downloading.value = true;
 			exportData.value = [];
-			loadRemotePromise(url.value, 0, 1, jqFilterString.value)
+			loadRemotePromise(
+				url.value,
+				0,
+				1,
+				jqFilterString.value,
+				customOrder.value,
+				props.searchPostData
+			)
 				.then((data) => {
 					exportData.value = data.rows || [];
 				})
@@ -808,10 +795,14 @@ function onModified(val: any) {
 		// 远程数据
 		if (props.editUrl) {
 			loading.value = true;
+			let postData = val;
+			if (!_.isEmpty(props.editPostData)) {
+				postData = { ...val, ...props.editPostData };
+			}
 			apiFetch<Result<any>>(props.editUrl, props.accessToken)
 				.post({
 					operation: operation.value,
-					data: val
+					data: postData
 				})
 				.json()
 				.then((resp) => {
@@ -930,10 +921,17 @@ function sortLocalData(prop: string, order: VT.SortOrderType) {
  * @param {String | null} order 排序方向，"ascending"：升序；"descending"：降序；null：不排序
  */
 function sortRemoteData(prop: string, order: VT.SortOrderType) {
-	loadRemoteData(url.value, pageRows.value, currentPage.value, jqFilterString.value, {
-		name: prop,
-		order: order
-	});
+	loadRemoteData(
+		url.value,
+		pageRows.value,
+		currentPage.value,
+		jqFilterString.value,
+		{
+			name: prop,
+			order: order
+		},
+		props.searchPostData
+	);
 }
 
 function onSortChange({ column, prop, order }: VT.SortChangeParams) {
@@ -969,7 +967,14 @@ watch(
 	[currentPage, pageRows],
 	([current_page, page_size], [old_current_page, old_page_size]) => {
 		if (props.remote === true) {
-			loadRemoteData(url.value, page_size, current_page, jqFilterString.value);
+			loadRemoteData(
+				url.value,
+				page_size,
+				current_page,
+				jqFilterString.value,
+				customOrder.value,
+				props.searchPostData
+			);
 		} else {
 			localData.value = currentPageData.value;
 		}
