@@ -128,6 +128,11 @@ const props = defineProps({
 	},
 	editPostData: {
 		default: () => {}
+	},
+	operationColumnWidth: {
+		type: [String, Number],
+		required: false,
+		default: 120
 	}
 });
 
@@ -273,7 +278,7 @@ operationColumns.value.push({
 			);
 		}
 	},
-	width: 150,
+	width: props.operationColumnWidth ?? 120,
 	align: "center",
 	fixed: true
 });

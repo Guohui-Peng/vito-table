@@ -142,6 +142,10 @@ const props = withDefaults(
 		 * 编辑时总是添加的条件
 		 */
 		editPostData?: Record<string, any>;
+		/**
+		 * 操作列宽度
+		 */
+		operationColumnWidth?: number | string;
 	}>(),
 	{
 		modelValue: () => [],
@@ -168,7 +172,8 @@ const props = withDefaults(
 		canDelete: false,
 		canExport: false,
 		canRefresh: true,
-		columnTitleI18n: true
+		columnTitleI18n: true,
+		operationColumnWidth: 120
 	}
 );
 
@@ -1051,7 +1056,7 @@ onMounted(() => {
 			<el-table-column
 				fixed
 				:label="t('Table.Operations')"
-				width="120"
+				:width="operationColumnWidth"
 				:align="'center'"
 				:resizable="false"
 				v-if="showOperationColumn"
