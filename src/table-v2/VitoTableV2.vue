@@ -531,28 +531,38 @@ function refreshLocalData() {
 function _emptyRow() {
 	const row = {};
 	props.columns.forEach((col) => {
-		if (col.dataType === "select") {
-			if (col.editoptions) {
-				if (col.editoptions.defaultValue !== undefined) {
-					row[col.dataKey] = col.editoptions.defaultValue;
-				} else {
-					const s_col = col;
-					if (
-						s_col &&
-						s_col.editoptions &&
-						s_col.editoptions.options &&
-						s_col.editoptions.options.length > 0
-					) {
-						row[col.dataKey] = s_col.editoptions.options[0].value;
+		if (col.editable === true) {
+			if (col.dataType === "select") {
+				if (col.editoptions) {
+					if (col.editoptions.defaultValue !== undefined) {
+						row[col.dataKey] = col.editoptions.defaultValue;
 					} else {
-						row[col.dataKey] = "";
+						const s_col = col;
+						if (
+							s_col &&
+							s_col.editoptions &&
+							s_col.editoptions.options &&
+							s_col.editoptions.options.length > 0
+						) {
+							row[col.dataKey] = s_col.editoptions.options[0].value;
+						} else {
+							row[col.dataKey] = "";
+						}
 					}
+				} else {
+					row[col.dataKey] = "";
 				}
+				//row[col.dataKey] = col.editoptions?.defaultValue || "";
 			} else {
-				row[col.dataKey] = "";
+				if (col.editoptions && col.editoptions.defaultValue !== undefined) {
+					row[col.dataKey] = col.editoptions?.defaultValue;
+				} else {
+					row[col.dataKey] = null;
+				}
 			}
-			//row[col.dataKey] = col.editoptions?.defaultValue || "";
-		} else {
+		} else if (col.editable === false) {
+			// editable 为 false ，但有 defaultValue 值时，设置默认值。
+			// 应用场景，XX 为需传送到后台的字段，但UI编辑时不需要维护它。
 			if (col.editoptions && col.editoptions.defaultValue !== undefined) {
 				row[col.dataKey] = col.editoptions?.defaultValue;
 			}
