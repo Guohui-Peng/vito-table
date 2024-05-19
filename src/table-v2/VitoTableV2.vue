@@ -124,11 +124,9 @@ const props = defineProps({
 		default: true
 	},
 	searchPostData: {
-		type: any,
 		default: () => {}
 	},
 	editPostData: {
-		type: any,
 		default: () => {}
 	}
 });
