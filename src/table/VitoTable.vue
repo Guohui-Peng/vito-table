@@ -1072,7 +1072,7 @@ onMounted(() => {
 					>
 					<el-button
 						link
-						type="primary"
+						type="danger"
 						size="small"
 						@click="onDelete(scope.$index, scope.row)"
 						v-if="showRowDeleteButton"
