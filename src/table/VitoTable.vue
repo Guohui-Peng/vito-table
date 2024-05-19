@@ -199,7 +199,7 @@ function emitFetchError(ctx: { data: any; response: Response | null; error: any 
 const token = computed<string>(() => props.accessToken ?? "");
 
 const { apiFetch } = useApiFetch(emitFetchError);
-const { loadRemotePromise } = useApiRemote(token);
+const { loadRemotePromise } = useApiRemote(token, emitFetchError);
 
 // 表格数据，v-model绑定
 const data = computed({

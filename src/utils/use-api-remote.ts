@@ -3,7 +3,14 @@ import { useApiFetch } from "./vt-fetch";
 import type { VtTable as VT } from "@/types";
 import type { Ref } from "vue";
 
-export function useApiRemote(token: string | Ref<string> | null | undefined) {
+export function useApiRemote(
+	token: string | Ref<string> | null | undefined,
+	fetchError: (ctx: {
+		data: any;
+		response: Response | null;
+		error: any;
+	}) => void | null | undefined
+) {
 	/**
 	 * 加载远程数据
 	 * @param url URL 地址
@@ -22,7 +29,7 @@ export function useApiRemote(token: string | Ref<string> | null | undefined) {
 		sort: VT.Sort | undefined = undefined,
 		ext_post_data: Record<string, any> | null | undefined = undefined
 	): Promise<GridResult<any>> => {
-		const { apiFetch } = useApiFetch();
+		const { apiFetch } = useApiFetch(fetchError);
 
 		const postData: VT.TableRequstParams = {
 			pageSize: page_size,
