@@ -175,11 +175,21 @@ const emit = defineEmits<{
 	edit: [row: any];
 	delete: [index: number, row: any];
 	batchDelete: [ids: string[]];
+	onFetchError: [
+		ctx: {
+			data: any;
+			response: Response | null;
+			error: any;
+		}
+	];
 }>();
 
 const { t } = useI18n();
 
-const { apiFetch } = useApiFetch();
+function emitFetchError(ctx: { data: any; response: Response | null; error: any }) {
+	emit("onFetchError", ctx);
+}
+const { apiFetch } = useApiFetch(emitFetchError);
 
 // 表格数据，v-model绑定
 const data = computed({

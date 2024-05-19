@@ -125,19 +125,22 @@ const props = defineProps({
 	}
 });
 
-const emit = defineEmits(["update:modelValue", "add", "edit", "delete", "operation"]);
+const emit = defineEmits([
+	"update:modelValue",
+	"add",
+	"edit",
+	"delete",
+	"operation",
+	"onFetchError"
+]);
 
 const { t, locale } = useI18n();
 
-// const apiServer = computed(() => {
-// 	if (props.apiServer) {
-// 		return props.apiServer;
-// 	} else {
-// 		return "";
-// 	}
-// });
+function emitFetchError(ctx) {
+	emit("onFetchError", ctx);
+}
 
-const { apiFetch } = useApiFetch();
+const { apiFetch } = useApiFetch(emitFetchError);
 
 // 表格数据，v-model绑定
 const data = computed({
