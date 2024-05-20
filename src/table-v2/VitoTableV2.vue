@@ -416,6 +416,9 @@ const loadRemoteData = (url, page_size, current_page, filters = null, sort = nul
  * 刷新远程数据
  */
 function refreshRemoteData() {
+	if (props.remote !== true) {
+		return;
+	}
 	loadRemoteData(
 		props.url,
 		pageRows.value,
@@ -935,6 +938,7 @@ function sortRemoteData(prop, order) {
 // 	}
 // }
 // #endregion
+defineExpose({ refreshRemoteData });
 </script>
 
 <template>

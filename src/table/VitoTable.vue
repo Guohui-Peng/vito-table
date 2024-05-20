@@ -572,6 +572,9 @@ const loadRemoteData = (
  * 刷新远程数据
  */
 function refreshRemoteData() {
+	if (props.remote !== true) {
+		return;
+	}
 	loadRemoteData(
 		url.value,
 		pageRows.value,
@@ -1054,6 +1057,8 @@ onMounted(() => {
 		refreshLocalData();
 	}
 });
+
+defineExpose({ refreshRemoteData });
 </script>
 
 <template>
