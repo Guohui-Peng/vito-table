@@ -114,6 +114,25 @@ Vito Table 提供了远程数据获取功能，通过设置 `remote-data` 属性
 </template>
 ```
 
+### API 返回数据格式
+
+```js
+interface Result<T = any> {
+	/**
+	 * 是否成功
+	 */
+	success: boolean;
+	/**
+	 * 返回数据
+	 */
+	data?: T | null;
+	/**
+	 * 返回消息
+	 */
+	msg?: string;
+}
+```
+
 ## 表格配置
 
 [表格配置说明](https://github.com/Guohui-Peng/vito-table/blob/main/VitoTable.md)
