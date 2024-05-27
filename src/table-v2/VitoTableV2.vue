@@ -619,7 +619,7 @@ function onDelete() {
 			if (props.remote == true) {
 				// 远程删除数据
 				try {
-					const ids = selectedRows.map((row) => row.Id || row.id || row.ID).join(",");
+					const ids = selectedRows.map((row) => row.Id ?? row.id ?? row.ID).join(",");
 					loading.value = true;
 					apiFetch(props.editUrl, props.accessToken)
 						.post({

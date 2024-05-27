@@ -616,7 +616,9 @@ function onBatchDelete() {
 				// 远程删除数据
 				try {
 					if (props.editUrl) {
-						const selectedIds = selectedRows.map((row: any) => row.Id || row.id || row.ID);
+						const selectedIds = selectedRows.map(
+							(row: any) => row.Id ?? row.id ?? row.ID
+						);
 						const ids = selectedIds.join(",");
 						loading.value = true;
 						apiFetch(props.editUrl, props.accessToken)
