@@ -455,9 +455,12 @@ function deleteData(rowIndex, rowData) {
 						operation: "del"
 					})
 					.then((resp) => {
-						if (resp.data?.value === false) {
-							ElMessage.error(resp.data.data);
-							throw new Error(resp.data.data);
+						if (resp.data?.value) {
+							const r = resp.data.value;
+							if (r.success === false) {
+								console.error(r);
+								ElMessage.error(r.msg ?? r.data);
+							}
 						}
 						loading.value = false;
 						// 重新加载数据
@@ -627,12 +630,13 @@ function onDelete() {
 							ids: ids,
 							operation: "del"
 						})
+						.json()
 						.then((resp) => {
 							if (resp.data?.value) {
 								const r = resp.data.value;
 								if (r.success === false) {
-									console.error(r.data);
-									ElMessage.error(r.data);
+									console.error(r);
+									ElMessage.error(r.msg ?? r.data);
 								}
 							}
 							loading.value = false;
@@ -709,8 +713,8 @@ function onModified(val) {
 				// console.log(resp.data);
 				const r = resp.data.value;
 				if (r.success === false) {
-					console.error(r.data);
-					ElMessage.error(r.data);
+					console.error(r);
+					ElMessage.error(r.msg ?? r.data);
 				}
 				refreshRemoteData();
 			})

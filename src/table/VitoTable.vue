@@ -627,14 +627,14 @@ function onBatchDelete() {
 								ids: ids,
 								operation: "del"
 							})
-							.json()
+							.json<Result<any>>()
 							.then((resp) => {
 								// console.log(resp)
 								if (resp.data?.value) {
 									const r = resp.data.value;
 									if (r.success === false) {
-										console.error(r.data);
-										ElMessage.error(r.data);
+										console.error(r);
+										ElMessage.error(r.msg ?? r.data);
 									}
 								}
 								loading.value = false;
@@ -833,18 +833,18 @@ function onModified(val: any) {
 			if (!_.isEmpty(props.editPostData)) {
 				postData = { ...val, ...props.editPostData };
 			}
-			apiFetch<Result<any>>(props.editUrl, props.accessToken)
+			apiFetch(props.editUrl, props.accessToken)
 				.post({
 					operation: operation.value,
 					data: postData
 				})
-				.json()
+				.json<Result<any>>()
 				.then((resp) => {
 					// console.log(resp.data);
 					const r = resp.data.value;
-					if (r.success === false) {
-						console.error(r.data);
-						ElMessage.error(r.data);
+					if (r?.success === false) {
+						console.error(r);
+						ElMessage.error(r.msg ?? r.data);
 					}
 					refreshRemoteData();
 				})
