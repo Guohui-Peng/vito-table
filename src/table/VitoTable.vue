@@ -1060,7 +1060,30 @@ onMounted(() => {
 	}
 });
 
-defineExpose({ refreshRemoteData });
+/**
+ * 获取选中的行
+ */
+function getSelectionRows() {
+	return tableRef.value!.getSelectionRows();
+}
+
+/**
+ * 取消选中
+ */
+function clearSelection() {
+	return tableRef.value!.clearSelection();
+}
+
+/**
+ *
+ * @param row 行
+ * @param selected 是否选中，为Null时将对选中状态取反
+ */
+function toggleRowSelection(row: any, selected: boolean) {
+	return tableRef.value!.toggleRowSelection(row, selected);
+}
+
+defineExpose({ refreshRemoteData, getSelectionRows, clearSelection, toggleRowSelection });
 </script>
 
 <template>
