@@ -24,6 +24,13 @@ export default defineConfig({
 			"~": pathResolve("./src")
 		}
 	},
+	css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler'
+            }
+        }
+    },
 	plugins: [
 		vue(),
 		vueJsx(),
