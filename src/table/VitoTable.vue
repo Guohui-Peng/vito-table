@@ -1117,7 +1117,7 @@ defineExpose({ refreshRemoteData, getSelectionRows, clearSelection, toggleRowSel
 						type="primary"
 						size="small"
 						@click="onEdit(scope)"
-						v-if="showRowEditButton"
+						v-if="showRowEditButton && !!!scope.row?.hideAdd"
 						>{{ t("Table.Edit") }}</el-button
 					>
 					<el-button
@@ -1125,7 +1125,7 @@ defineExpose({ refreshRemoteData, getSelectionRows, clearSelection, toggleRowSel
 						type="danger"
 						size="small"
 						@click="onDelete(scope.$index, scope.row)"
-						v-if="showRowDeleteButton"
+						v-if="showRowDeleteButton && !!!scope.row?.hideEdit"
 						>{{ t("Table.Delete") }}</el-button
 					>
 					<slot name="moreRowButtons" :row="scope.row"></slot>
