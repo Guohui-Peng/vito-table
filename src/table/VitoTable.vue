@@ -488,16 +488,18 @@ function deleteData(rowIndex: number, rowData: Object) {
 						data: rowData,
 						operation: "del"
 					})
+					.json<Result<any>>()
 					.then((resp) => {
-						// console.log("Delete: ", resp.data.value);
-						if (resp.data.value?.success === false) {
-							const message = resp.data.value.msg || resp.data.value.data;
+						// console.log(resp.data);
+						const r = resp.data.value;
+						if (r?.success === false) {
+							console.error(r);
+							const message = r.msg ?? r.data;
 							ElMessage.error(message);
 							throw new Error(message);
 						}
-						loading.value = false;
-						// 重新加载数据
 						refreshRemoteData();
+						loading.value = false;
 					});
 			} catch (err) {
 				console.error(err);
