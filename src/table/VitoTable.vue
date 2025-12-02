@@ -486,7 +486,7 @@ function deleteData(rowIndex: number, rowData: Object) {
 				apiFetch<Result<any>>(props.editUrl, props.accessToken)
 					.post({
 						data: rowData,
-						operation: "del"
+						oper: "del"
 					})
 					.json<Result<any>>()
 					.then((resp) => {
@@ -627,7 +627,7 @@ function onBatchDelete() {
 							.post({
 								data: null,
 								ids: ids,
-								operation: "del"
+								oper: "del"
 							})
 							.json<Result<any>>()
 							.then((resp) => {
@@ -837,7 +837,7 @@ function onModified(val: any) {
 			}
 			apiFetch(props.editUrl, props.accessToken)
 				.post({
-					operation: operation.value,
+					oper: operation.value,
 					data: postData
 				})
 				.json<Result<any>>()

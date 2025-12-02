@@ -452,7 +452,7 @@ function deleteData(rowIndex, rowData) {
 				apiFetch(props.editUrl, props.accessToken)
 					.post({
 						data: rowData,
-						operation: "del"
+						oper: "del"
 					})
 					.then((resp) => {
 						if (resp.data?.value) {
@@ -628,7 +628,7 @@ function onDelete() {
 						.post({
 							data: null,
 							ids: ids,
-							operation: "del"
+							oper: "del"
 						})
 						.json()
 						.then((resp) => {
@@ -705,7 +705,7 @@ function onModified(val) {
 		}
 		apiFetch(props.editUrl, props.accessToken)
 			.post({
-				operation: "edit",
+				oper: "edit",
 				data: postData
 			})
 			.json()
