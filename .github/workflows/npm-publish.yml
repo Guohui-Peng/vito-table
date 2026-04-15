@@ -17,14 +17,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - uses: pnpm/action-setup@v4  # 升级到 v4 以支持 Node.js 24
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4  # 升级到 v4 以支持 Node.js 24
+        with:
+          version: 10
+          run_install: false
           
-      - name: Use Node LTS ✨
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-          registry-url: https://registry.npmjs.org
+          node-version: '24.x'
           cache: pnpm
+          registry-url: https://registry.npmjs.org/
           
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
