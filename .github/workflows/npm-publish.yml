@@ -10,22 +10,21 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    # 启用 Node.js 24 作为 Action 运行时（解决弃用警告）
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
-          run_install: false
+      - uses: pnpm/action-setup@v4  # 升级到 v4 以支持 Node.js 24
           
-      - name: Install Node.js
+      - name: Use Node LTS ✨
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
           cache: pnpm
-          registry-url: https://registry.npmjs.org/
           
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
