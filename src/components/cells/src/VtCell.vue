@@ -40,8 +40,7 @@ function customFormatter(
 	col: VtTable.Column<VtTable.ColumnDataType>,
 	cell_value: any,
 	index: number
-) {
-	if(!cell_value) return "";
+) {	
 	const { dataType, formatter, formatoptions } = col;
 	if (formatter === true) {
 		if (formatoptions && formatoptions.custom) {
@@ -54,7 +53,7 @@ function customFormatter(
 				return formatoptions.custom(row, col, cell_value, index);
 			}
 		}
-	}
+	} else if(!cell_value) return "";
 	switch (dataType) {
 		case "number":
 			return numberFormat(cell_value, getDecimalPlaces(col as VtTable.Column<"number">));
