@@ -350,7 +350,7 @@ const translatedColumns = computed<VT.Column<VT.ColumnDataType>[]>({
 		return props.columnTitleI18n && customColumns.value
 			? customColumns.value.map((col) =>
 					Object.assign({}, { id: col.key }, col, { title: t(col.title ?? col.key) })
-			  )
+				)
 			: customColumns.value;
 	},
 	set(val) {
@@ -365,6 +365,28 @@ const tableColumns = computed(() => {
 		.filter((col) => col.hidden !== true)
 		?.map((col) => Object.assign({}, { id: col.key }, col));
 });
+
+function customConvert(
+	row: any,
+	col: VT.Column<VT.ColumnDataType>,
+	cell_value: any,
+	index: number
+) {
+	const { dataType, formatter, formatoptions } = col;
+	if (formatter === true) {
+		if (formatoptions && formatoptions.custom) {
+			if (typeof formatoptions.custom === "string") {
+				const fn = new Function("row", "col", "cell_value", "index", formatoptions.custom);
+				return fn(row, col, cell_value, index);
+			} else if (typeof formatoptions.custom === "function") {
+				// 	return eval(formatoptions.custom)(row, col, cell_value, index);
+				// } else {
+				return formatoptions.custom(row, col, cell_value, index);
+			}
+		}
+	}
+	return cell_value;
+}
 
 const summaryMethod = (params: VT.SummaryMethod) => {
 	// console.log("params", params);
@@ -405,10 +427,13 @@ const summaryMethod = (params: VT.SummaryMethod) => {
 			if (pColumn) {
 				if (pColumn.dataType === "int" || pColumn.dataType === "number") {
 					const values = data.map((item) => Number(item[column.property]));
-					sums[index] = values.reduce((prev, curr) => {
-						const value = Number(curr);
+					sums[index] = data.reduce((prev, curr) => {
+						const row = curr;
+						const cellValue = Number(row[column.property]);
+						const convertedValue = customConvert(row, pColumn, cellValue, index);
+						const value = Number(convertedValue);
 						if (!isNaN(value)) {
-							return prev + curr;
+							return prev + value;
 						} else {
 							return prev;
 						}
